@@ -120,9 +120,9 @@ public class Date implements Comparable<Date> {
 
     public static void main(String[] args) {
         Date d = new Date("01/31/2001");
-        Date d1 = new Date();
+        Date d1 = new Date("01/30/2001");
 
-        System.out.println(d.isValid());
+        System.out.println(d.compareTo(d1)); //should give 1
 
         System.out.println(d.year);
         System.out.println(d.month);

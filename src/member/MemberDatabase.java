@@ -7,13 +7,12 @@ import enums.Location;
 import java.util.Calendar;
 
 public class MemberDatabase {
-    private Member [] mlist;
+    private Member[] mlist;
     private int size;
-    private static final int NOT_FOUND = -1;
 
     public MemberDatabase() {
         this.size = 0;
-        mlist = new Member[4]; // Default Size
+        mlist = new Member[4]; // FIXME: MAGIC NUMBER Default Size
     }
 
     private int find(Member member) {
@@ -23,7 +22,7 @@ public class MemberDatabase {
             }
         }
 
-        return NOT_FOUND;
+        return -1;
     }
 
     public void grow() {
@@ -80,7 +79,7 @@ public class MemberDatabase {
     public boolean remove(Member member) {
         int index = this.find(member);
 
-        if (index == NOT_FOUND) {
+        if (index == -1) {
             return false;
         }
 
@@ -94,16 +93,16 @@ public class MemberDatabase {
         return true;
     }
     public void print() {
-        for (Member member : this.mlist) {
-            System.out.println(member);
+        for (int x = 0; x < this.size; x++) {
+            System.out.println(this.mlist[x]);
         }
     }
 
     public void printByCounty() {
         Member tempMember;
         // Isn't Java so beautiful and readable? Doesn't this make so much sense? Ahhh yes, nice to be back in Java. :)
-        for (int x = 0; x < this.mlist.length; x++) {
-            for (int y = x + 1; y < this.mlist.length; y++) {
+        for (int x = 0; x < this.size; x++) {
+            for (int y = x + 1; y < this.size; y++) {
                 if (this.mlist[x].getLocation().getCounty().compareTo(this.mlist[y].getLocation().getCounty()) > 0) {
                     tempMember = this.mlist[x];
                     this.mlist[x] = this.mlist[y];

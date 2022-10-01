@@ -6,9 +6,9 @@ import enums.Location;
 public class Member implements Comparable<Member> {
     private final String fname;
     private final String lname;
-    private final Date dob; // TODO: Create Date class
+    private final Date dob;
     private final Date expire;
-    private final Location location; // TODO: Create location class
+    private final Location location;
 
     public Member(String fname, String lname, Date dob, Date expire, Location location) {
         this.fname = fname;
@@ -49,7 +49,7 @@ public class Member implements Comparable<Member> {
         Member member = (Member) obj;
 
         return this.fname.equals(member.getFname()) && this.lname.equals(member.getLname())
-                && this.dob.equals(member.getDob());
+                && this.dob.compareTo(member.getDob()) == 0;
     }
 
 
