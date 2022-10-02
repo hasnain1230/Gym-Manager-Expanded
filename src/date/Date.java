@@ -2,6 +2,7 @@ package date;
 
 import java.util.Calendar;
 import constants.Constants;
+import member.Member;
 
 public class Date implements Comparable<Date> {
 
@@ -69,6 +70,39 @@ public class Date implements Comparable<Date> {
         }
 
         return -1;
+    }
+
+    public boolean checkIfDobIsFuture() {
+        Date today = new Date();
+
+        if (this.compareTo(today) >= 0) { // This means their DOB is in the future and/or today
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean checkMemberAge() {
+        Date today = new Date();
+        int currentYear = today.getYear();
+        int currentMonth = today.getMonth();
+        int currentDay = today.getDay();
+
+        int yearDifference = currentYear - this.YEAR;
+
+        if (yearDifference > Constants.MINIMUM_AGE) {
+            return true;
+        } else if (yearDifference == Constants.MINIMUM_AGE) {
+            if ((currentMonth - this.MONTH) > 0) {
+                return true;
+            } else if ((currentMonth - this.MONTH) == 0) {
+                if ((currentDay - this.DAY) >= 0) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     private boolean isLeapYear(int year) {

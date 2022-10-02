@@ -13,14 +13,29 @@ public class MemberDatabase {
         mlist = new Member[Constants.ARRAY_DEFAULT_SIZE];
     }
 
-    private int find(Member member) {
+    public int find(String firstName, String lastName, Date dob) {
+        for (int x = 0; x < this.size; x++) { // Not binary search, this is a naive method, so it's fine
+            if (this.mlist[x].getFname().equals(firstName) && this.mlist[x].getLname().equals(lastName) && this.mlist[x].getDob().equals(dob)) {
+                return x;
+            }
+        }
+
+        return -1;
+    }
+
+
+    public int find(Member member) {
         for (int x = 0; x < this.size; x++) { // Not binary search, this is a naive method, so it's fine
             if (this.mlist[x].equals(member)) {
                 return x;
             }
         }
 
-        return -1;
+        return Constants.NOT_FOUND;
+    }
+
+    public Member getMember(int index) {
+        return this.mlist[index];
     }
 
     public void grow() {
@@ -31,33 +46,6 @@ public class MemberDatabase {
         }
 
         this.mlist = newMemberList;
-    }
-
-    public boolean checkMemberAge(Member member) {
-        Date today = new Date();
-        Date dob = member.getDob();
-        int currentYear = today.getYear();
-        int currentMonth = today.getMonth();
-        int currentDay = today.getDay();
-        int dobYear = dob.getYear();
-        int dobMonth = dob.getMonth();
-        int dobDay = dob.getDay();
-
-        int yearDifference = currentYear - dobYear;
-
-        if (yearDifference > Constants.MINIMUM_AGE) {
-            return true;
-        } else if (yearDifference == Constants.MINIMUM_AGE) {
-            if ((currentMonth - dobMonth) > 0) {
-                return true;
-            } else if ((currentMonth - dobMonth) == 0) {
-                if ((currentDay - dobDay) >= 0) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
     }
 
     public boolean add(Member member) {
@@ -77,7 +65,7 @@ public class MemberDatabase {
     public boolean remove(Member member) {
         int index = this.find(member);
 
-        if (index == -1) {
+        if (index == Constants.NOT_FOUND) {
             return false;
         }
 

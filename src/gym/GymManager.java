@@ -1,80 +1,104 @@
 package gym;
 
+import constants.Constants;
+import enums.FitnessClassHelperEnum;
 import enums.Location;
 import member.Member;
 import date.Date;
 import member.MemberDatabase;
 
-import java.util.Arrays;
 import java.util.Scanner;
-import java.util.StringTokenizer;
+
 
 public class GymManager {
 
-    public boolean checkIfMemberIsValid (Member m, MemberDatabase md) {
+    private void addMember (String[] lineParts, MemberDatabase memberDatabase) {
+        Member member = new Member(lineParts[1], lineParts[2], new Date(lineParts[3]), new Date(lineParts[4]), Location.returnEnumFromString(lineParts[5]));
 
-        //FIXME: wasn't sure how to print straight from string format so i did it through concat fix if you want to
-        if (!m.getDob().isValid()) {
-            System.out.println("DOB:" + m.getDob() + " invalid calendar date!");
-            return false;
-        } else if(!m.getExpire().isValid()) {
-            System.out.println("Expiration Date:" + m.getExpire() + " invalid calendar date!");
-            return false;
-        } else if(!md.checkMemberAge(m)) {
-            System.out.println("DOB:" + m.getDob() + " must be 18 or older to join!");
-            return false;
-        } else if(m.getLocation() == null) {
-            System.out.println("location is not valid!");
+        if (!member.getDob().isValid()) {
+            System.out.printf("DOB %s: invalid calendar date!\n", member.getDob());
+            return;
+        } else if (!member.getDob().checkIfDobIsFuture()) {
+            System.out.printf("DOB %s: cannot be today or a future date.\n", member.getDob());
+            return;
+        } else if (!member.getDob().checkMemberAge()) {
+            System.out.printf("DOB %s: must be 18 or older to join!\n", member.getDob());
+            return;
+        } else if (!member.getExpire().isValid()) {
+            System.out.printf("Expiration Date %s: invalid calendar date!\n", member.getExpire());
+            return;
+        } else if (member.getLocation() == null) { // TODO: Make sure this is valid.
+            System.out.printf("%s: invalid location!\n", lineParts[5]);
+            return;
         }
 
-        return true;
+        if (memberDatabase.add(member)) {
+            System.out.printf("%s %s added.\n", member.getFname(), member.getLname());
+        } else {
+            System.out.printf("%s %s is already in the database.\n", member.getFname(), member.getLname());
+        }
+    }
+
+    private void removeMember(String[] lineParts, MemberDatabase memberDatabase) {
+
+    }
+
+
+
+    private void checkInMember (String[] lineParts, MemberDatabase memberDatabase) {
+
+
+        String fname = lineParts[2];
+        String lname = lineParts[3];
+        Date dob = new Date(lineParts[4]);
+
+        FitnessClass fc = new FitnessClass(lineParts[1], FitnessClassHelperEnum.returnEnumFromString(lineParts[1]));
+
+        if (!dob.isValid()) {
+            System.out.printf("DOB %s: invalid calendar date!\n", dob);
+        }
+
+        int index = memberDatabase.find(fname, lname, dob);
+
+        if (index == Constants.NOT_FOUND) {
+            System.out.printf("%s %s %s is not in database", fname, lname, dob);
+        } else{
+            Member member = memberDatabase.getMember(index);
+
+        }
+
+
     }
 
     public void run() {
         System.out.println("Gym Manager Running...");
         Scanner sc = new Scanner(System.in);
         String input;
-        MemberDatabase md = new MemberDatabase();
+        MemberDatabase memberDatabase = new MemberDatabase();
 
         while ( !((input = sc.nextLine()).equals("Q")) ) {
-            /*StringTokenizer st = new StringTokenizer(input, " ");
+            String[] lineParts = input.split(" "); // While we could use String Tokenizer here, the split method is more elegant.
 
-            while (st.hasMoreTokens()) {
-                st.nextToken();
-            }
-
-             */
-
-            String[] lineParts = input.split(" ");
-
-            if (lineParts[0].equals("A")) {
-                Member m = new Member(lineParts[1], lineParts[2], new Date(lineParts[3]), new Date(lineParts[4]), Location.returnEnumFromString(lineParts[5]));
-                if (checkIfMemberIsValid(m, md)) {
-                    if (md.add(m)) {
-                        System.out.println(m.getFname() + " " + m.getLname() + " added."); //FIXME: make this proper
-                    } else{
-                        System.out.println(m.getFname() + " " + m.getLname() + " is already in database."); //FIXME: make this proper
-                    }
-                }
+            if (lineParts[0].equals("A")) { // This is working now!
+                addMember(lineParts, memberDatabase);
             } else if (lineParts[0].equals("R")) {
-                Member m = new Member(lineParts[1], lineParts[2], new Date(lineParts[3]), new Date(lineParts[4]), Location.returnEnumFromString(lineParts[5]));
-                md.remove(m);
+
             } else if (lineParts[0].equals("P")) {
-                md.print();
+                memberDatabase.print();
             } else if (lineParts[0].equals("PC")) {
-                md.printByCounty();
+                memberDatabase.printByCounty();
             } else if (lineParts[0].equals("PN")) {
-                md.printByName();
+                memberDatabase.printByName();
             } else if (lineParts[0].equals("PD")) {
-                md.printByExpirationDate();
+                memberDatabase.printByExpirationDate();
+            } else if (lineParts[0].equals("S")) {
+
             } else if (lineParts[0].equals("C")) {
 
+            } else if (lineParts[0].equals("D")) {
+
             }
-
-
-
         }
-
         System.out.println("Gym Manager terminated.");
     }
 
