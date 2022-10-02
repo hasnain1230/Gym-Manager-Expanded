@@ -24,4 +24,6 @@ public class Constants {
     public static final int ARRAY_INCREMENT_SIZE = 4;
 
     public static final int NUMBER_OF_CLASSES = 3;
+
+    public static final int NOT_FOUND = -1;
 }

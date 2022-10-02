@@ -17,6 +17,18 @@ public enum FitnessClassHelperEnum {
         this.INSTRUCTOR = instructor;
     }
 
+    public static FitnessClassHelperEnum returnEnumFromString(String fitnessClass) {
+        if (fitnessClass.equalsIgnoreCase("pilates")) {
+            return FitnessClassHelperEnum.PILATES;
+        } else if (fitnessClass.equalsIgnoreCase("spinning")) {
+            return FitnessClassHelperEnum.SPINNING;
+        } else if (fitnessClass.equalsIgnoreCase("cardio")) {
+            return FitnessClassHelperEnum.CARDIO;
+        } else {
+            return null;
+        }
+    }
+
     public final Time getTime() {
         return this.TIME;
     }

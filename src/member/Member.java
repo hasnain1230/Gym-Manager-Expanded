@@ -48,7 +48,7 @@ public class Member implements Comparable<Member> {
     public boolean equals(Object obj) {
         Member member = (Member) obj;
 
-        return this.fname.equals(member.getFname()) && this.lname.equals(member.getLname())
+        return this.fname.equalsIgnoreCase(member.getFname()) && this.lname.equalsIgnoreCase(member.getLname())
                 && this.dob.compareTo(member.getDob()) == 0;
     }
 

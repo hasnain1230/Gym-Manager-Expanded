@@ -10,15 +10,11 @@ public class FitnessClass {
     private int memberInClassSize;
     private static Member[][] membersInClass;
     private final String CLASS_NAME;
-    private final String INSTRUCTOR_NAME;
-    private final Time TIME;
     private final FitnessClassHelperEnum FITNESS_CLASS;
     private final FitnessClassHelperEnum[] ALL_CLASSES;
 
-    public FitnessClass(String className, String instructorName, Time time, FitnessClassHelperEnum fitnessClassHelperEnum) {
+    public FitnessClass(String className, FitnessClassHelperEnum fitnessClassHelperEnum) {
         this.CLASS_NAME = className;
-        this.INSTRUCTOR_NAME = instructorName;
-        this.TIME = time;
         membersInClass = new Member[fitnessClassHelperEnum.getClassIndex()][Constants.ARRAY_DEFAULT_SIZE];
         this.memberInClassSize = 0;
         this.FITNESS_CLASS = fitnessClassHelperEnum;
@@ -43,13 +39,10 @@ public class FitnessClass {
         return CLASS_NAME;
     }
 
-    public String getInstructorName() {
-        return INSTRUCTOR_NAME;
-    }
-
-    public Time getTime() {
+    // FIXME: Whatever
+/*    public Time getTime() {
         return TIME;
-    }
+    }*/
 
     public int findMemberInClass(Member member) {
         for(int i = 0; i < this.memberInClassSize; i++) {
@@ -117,6 +110,7 @@ public class FitnessClass {
     }
 
     public void printClassSchedule() { // TODO: Write this with the participants
+
 
     }
 }
