@@ -1,6 +1,7 @@
 package constants;
 
 public class Constants {
+
     public static final int QUADRENNIAL = 4;
     public static final int CENTENNIAL = 100;
     public static final int QUATERCENTENNIAL = 400;
@@ -19,4 +20,8 @@ public class Constants {
 
     public static final int MINIMUM_AGE = 18;
 
+    public static final int ARRAY_DEFAULT_SIZE = 4;
+    public static final int ARRAY_INCREMENT_SIZE = 4;
+
+    public static final int NUMBER_OF_CLASSES = 3;
 }

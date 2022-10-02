@@ -40,8 +40,8 @@ public class Member implements Comparable<Member> {
 
     @Override
     public String toString() {
-        return this.fname + " " + this.lname + ", DOB:" + this.dob +
-                ", Membership expires:" + this.expire + ", Location:" + this.location;
+        return String.format("%s %s, DOB: %s, Membership expires: %s, Location: %s",
+                this.fname, this.lname, this.dob, this.expire, this.location);
     }
 
     @Override
@@ -54,10 +54,12 @@ public class Member implements Comparable<Member> {
 
 
     @Override
-    public int compareTo(Member member) { // QUESTION: Compare Last Name First name or First Name Last Name?
-        String name = this.getLname() + this.getFname();
-        String memberName = member.getLname() + member.getFname();
+    public int compareTo(Member member) {
+        String name = String.format("%s %s", this.getLname(), this.getFname());
+        String memberName = String.format("%s %s", member.getLname(), member.getFname());
 
         return name.compareTo(memberName);
     }
+
+    // TODO: Write Testbed main here
 }

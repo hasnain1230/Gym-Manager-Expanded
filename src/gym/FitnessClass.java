@@ -1,63 +1,66 @@
 package gym;
 
-import enums.Location;
+import enums.FitnessClassHelperEnum;
 import enums.Time;
 import member.Member;
 import date.Date;
-import member.MemberDatabase;
+import constants.Constants;
 
 public class FitnessClass {
     private int memberInClassSize;
-    private Member[] membersInClass;
-    private String className;
-    private String instructorName;
-    private Time time;
+    private static Member[][] membersInClass;
+    private final String CLASS_NAME;
+    private final String INSTRUCTOR_NAME;
+    private final Time TIME;
+    private final FitnessClassHelperEnum FITNESS_CLASS;
+    private final FitnessClassHelperEnum[] ALL_CLASSES;
 
-    public FitnessClass(String className, String instructorName, Time time) {
-        this.className = className;
-        this.instructorName = instructorName;
-        this.time = time;
-        this.membersInClass = new Member[4]; // FIXME: Magic Number
+    public FitnessClass(String className, String instructorName, Time time, FitnessClassHelperEnum fitnessClassHelperEnum) {
+        this.CLASS_NAME = className;
+        this.INSTRUCTOR_NAME = instructorName;
+        this.TIME = time;
+        membersInClass = new Member[fitnessClassHelperEnum.getClassIndex()][Constants.ARRAY_DEFAULT_SIZE];
         this.memberInClassSize = 0;
+        this.FITNESS_CLASS = fitnessClassHelperEnum;
+
+        this.ALL_CLASSES = new FitnessClassHelperEnum[Constants.NUMBER_OF_CLASSES];
+        this.ALL_CLASSES[0] = FitnessClassHelperEnum.PILATES;
+        this.ALL_CLASSES[1] = FitnessClassHelperEnum.SPINNING;
+        this.ALL_CLASSES[2] = FitnessClassHelperEnum.CARDIO;
     }
 
     private void grow() {
-        Member[] newMembersInClass = new Member[this.memberInClassSize + 4]; // FIXME: Magic Number
+        Member[] newMembersInClass = new Member[this.memberInClassSize + Constants.ARRAY_INCREMENT_SIZE];
 
         for (int x = 0; x < this.memberInClassSize; x++) {
-            newMembersInClass[x] = this.membersInClass[x];
+            newMembersInClass[x] = membersInClass[this.FITNESS_CLASS.getClassIndex()][x];
         }
 
-        this.membersInClass = newMembersInClass;
+        membersInClass[this.FITNESS_CLASS.getClassIndex()] = newMembersInClass;
     }
 
     public String getClassName() {
-        return className;
+        return CLASS_NAME;
     }
 
     public String getInstructorName() {
-        return instructorName;
+        return INSTRUCTOR_NAME;
     }
 
     public Time getTime() {
-        return time;
+        return TIME;
     }
 
-    public int checkIfMemberInClass(Member member) {
+    public int findMemberInClass(Member member) {
         for(int i = 0; i < this.memberInClassSize; i++) {
-            if (this.membersInClass[i].equals(member)) {
+            if (membersInClass[this.FITNESS_CLASS.getClassIndex()][i].equals(member)) {
                 return i;
             }
         }
         return -1;
     }
 
-    public boolean checkIfMemberExpired(Member member) { // Have they died yet? :D
-        //NEEDS TO:
-        //check if their membership is expired or not: DONE
-        //check if member already taking class, if so false:
-        //check if member is taking another class at same time, if so false: maybe in UI we'll see later
-
+    public boolean checkIfMemberExpired(Member member) { // Have they died yet :(
         Date today = new Date();
 
         if (member.getExpire().compareTo(today) <= 0) { //if expiration date has same date as today or is before today return true because membership is expired
@@ -67,37 +70,55 @@ public class FitnessClass {
         return false;
     }
 
-    public void checkIn(Member member) { // We are assuming that they allowed to do this if they are calling this method.
-        if (this.memberInClassSize == this.membersInClass.length) {
-            this.grow();
-        } else {
-            this.membersInClass[this.memberInClassSize] = member;
-            this.memberInClassSize++;
+    public boolean checkForTimeConflict(Member member) {
+        for (int x = 0; x < membersInClass.length; x++) {
+            for (int y = 0; y < membersInClass[x].length; y++) {
+                if (this.FITNESS_CLASS.getClassIndex() == x) {
+                    continue;
+                }
+                if (membersInClass[x][y].equals(member) && this.ALL_CLASSES[x].getTime().equals(this.FITNESS_CLASS.getTime())) {
+                    return false;
+                }
+            }
         }
+
+        return true;
+    }
+
+    public boolean checkIn(Member member) { // We are assuming that they allowed to do this if they are calling this method.
+        if (checkForTimeConflict(member) && checkIfMemberExpired(member) && findMemberInClass(member) != -1) {
+            if (this.memberInClassSize == membersInClass.length) {
+                this.grow();
+            }
+
+            membersInClass[this.FITNESS_CLASS.getClassIndex()][this.memberInClassSize] = member;
+            this.memberInClassSize++;
+            return true;
+        }
+
+        return false;
     }
 
     public void dropClass(Member member) {
-        int index = this.checkIfMemberInClass(member);
+        int index = this.findMemberInClass(member);
 
-        for( int i = index; i < this.memberInClassSize - 1; i--){
-            this.membersInClass[i] = this.membersInClass[i + 1];
+        for (int i = index; i < this.memberInClassSize - 1; i--) {
+            membersInClass[i] = membersInClass[i + 1];
         }
 
-        this.membersInClass[this.memberInClassSize - 1] = null;
+        membersInClass[this.memberInClassSize - 1] = null;
         this.memberInClassSize--;
     }
 
-    public static void main (String[] args) {
-        Date dob = new Date("10/11/1976");
-        Date expire = new Date("10/23/2022");
-
-        Member a = new Member("anna", "saguil", dob, expire, Location.EDISON);
-
-        FitnessClass pilates = new FitnessClass("pilates", "jennifer", Time.MORNING);
+    public void printMembersInClass() {
+        for (Member member : membersInClass[this.FITNESS_CLASS.getClassIndex()]) {
+            System.out.println(member);
+        }
     }
 
+    public void printClassSchedule() { // TODO: Write this with the participants
 
-
+    }
 }
 
 

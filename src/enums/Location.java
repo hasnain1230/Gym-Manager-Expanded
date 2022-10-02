@@ -17,20 +17,36 @@ public enum Location {
         this.COUNTY = county;
     }
 
-    public String getCounty() {
+    public static Location returnEnumFromString(String location) {
+        if (location.equalsIgnoreCase("bridgewater")) {
+            return Location.BRIDGEWATER;
+        } else if (location.equalsIgnoreCase("edison")) {
+            return Location.EDISON;
+        } else if (location.equalsIgnoreCase("franklin")) {
+            return Location.FRANKLIN;
+        } else if (location.equalsIgnoreCase("piscataway")) {
+            return Location.PISCATAWAY;
+        } else if (location.equalsIgnoreCase("somerville")) {
+            return Location.SOMERVILLE;
+        } else {
+            return null;
+        }
+    }
+
+    public final String getCounty() {
         return this.COUNTY;
     }
 
-    public String getTown() {
+    public final String getTown() {
         return this.TOWN;
     }
 
-    public String getPostalCode() {
+    public final String getPostalCode() {
         return this.POSTALCODE;
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return String.format("%s, %s, %s", this.TOWN, this.POSTALCODE, this.COUNTY);
     }
 }
