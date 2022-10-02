@@ -10,8 +10,7 @@ public enum Time {
         this.TIME = time;
     }
 
-    public String getTime() {
+    public final String getTime() {
         return this.TIME;
     }
-
 }

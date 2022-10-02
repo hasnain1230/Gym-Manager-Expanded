@@ -4,15 +4,13 @@ import constants.Constants;
 import date.Date;
 import enums.Location;
 
-import java.util.Calendar;
-
 public class MemberDatabase {
     private Member[] mlist;
     private int size;
 
     public MemberDatabase() {
         this.size = 0;
-        mlist = new Member[4]; // FIXME: MAGIC NUMBER Default Size
+        mlist = new Member[Constants.ARRAY_DEFAULT_SIZE];
     }
 
     private int find(Member member) {
@@ -36,14 +34,14 @@ public class MemberDatabase {
     }
 
     public boolean checkMemberAge(Member member) {
-        Calendar calendar = Calendar.getInstance();
-        Date date = member.getDob();
-        int currentYear = calendar.get(Calendar.YEAR);
-        int currentMonth = calendar.get(Calendar.MONTH) + 1;
-        int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
-        int dobYear = date.getYear();
-        int dobMonth = date.getMonth();
-        int dobDay = date.getDay();
+        Date today = new Date();
+        Date dob = member.getDob();
+        int currentYear = today.getYear();
+        int currentMonth = today.getMonth();
+        int currentDay = today.getDay();
+        int dobYear = dob.getYear();
+        int dobMonth = dob.getMonth();
+        int dobDay = dob.getDay();
 
         int yearDifference = currentYear - dobYear;
 
@@ -54,7 +52,7 @@ public class MemberDatabase {
                 return true;
             } else if ((currentMonth - dobMonth) == 0) {
                 if ((currentDay - dobDay) >= 0) {
-                    return true; // Happy Birthday!
+                    return true;
                 }
             }
         }
@@ -63,7 +61,7 @@ public class MemberDatabase {
     }
 
     public boolean add(Member member) {
-        if (this.find(member) >= 0) { // This means we found a member
+        if (this.find(member) >= 0) {
             return false;
         }
         if (this.size == this.mlist.length) {
@@ -84,7 +82,7 @@ public class MemberDatabase {
         }
 
         for (int x = index; x < this.size - 1; x++) {
-            this.mlist[x] = this.mlist[x + 1]; // Might be wrong?
+            this.mlist[x] = this.mlist[x + 1];
         }
 
         this.mlist[this.size - 1] = null;
@@ -92,6 +90,7 @@ public class MemberDatabase {
 
         return true;
     }
+
     public void print() {
         for (int x = 0; x < this.size; x++) {
             System.out.println(this.mlist[x]);
@@ -100,7 +99,7 @@ public class MemberDatabase {
 
     public void printByCounty() {
         Member tempMember;
-        // Isn't Java so beautiful and readable? Doesn't this make so much sense? Ahhh yes, nice to be back in Java. :)
+
         for (int x = 0; x < this.size; x++) {
             for (int y = x + 1; y < this.size; y++) {
                 if (this.mlist[x].getLocation().getCounty().compareTo(this.mlist[y].getLocation().getCounty()) > 0) {
