@@ -5,6 +5,7 @@ public class Constants {
     public static final int QUADRENNIAL = 4;
     public static final int CENTENNIAL = 100;
     public static final int QUATERCENTENNIAL = 400;
+    public static final int MIN_YEAR = 1900;
     public static final int MIN_MONTH = 1;
     public static final int MAX_MONTH = 12;
     public static final int MIN_DAYS = 1;

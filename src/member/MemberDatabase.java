@@ -15,7 +15,7 @@ public class MemberDatabase {
 
     public int find(String firstName, String lastName, Date dob) {
         for (int x = 0; x < this.size; x++) { // Not binary search, this is a naive method, so it's fine
-            if (this.mlist[x].getFname().equals(firstName) && this.mlist[x].getLname().equals(lastName) && this.mlist[x].getDob().equals(dob)) {
+            if (this.mlist[x].getFname().equals(firstName) && this.mlist[x].getLname().equals(lastName) && this.mlist[x].getDob().compareTo(dob) == 0) {
                 return x;
             }
         }
@@ -35,6 +35,9 @@ public class MemberDatabase {
     }
 
     public Member getMember(int index) {
+        if (index == Constants.NOT_FOUND) {
+            return null;
+        }
         return this.mlist[index];
     }
 
@@ -80,14 +83,18 @@ public class MemberDatabase {
     }
 
     public void print() {
+
+        System.out.println("-list of members-");
         for (int x = 0; x < this.size; x++) {
             System.out.println(this.mlist[x]);
         }
+        System.out.println("-end of list-");
     }
 
     public void printByCounty() {
         Member tempMember;
 
+        System.out.println("-list of members sorted by county and zipcode-");
         for (int x = 0; x < this.size; x++) {
             for (int y = x + 1; y < this.size; y++) {
                 if (this.mlist[x].getLocation().getCounty().compareTo(this.mlist[y].getLocation().getCounty()) > 0) {
@@ -105,10 +112,13 @@ public class MemberDatabase {
 
             System.out.println(this.mlist[x]);
         }
+        System.out.println("-end of list-");
     }
 
     public void printByExpirationDate() {
         Member tempMember;
+
+        System.out.println("-list of members sorted by member expiration date-");
         for (int x = 0; x < this.size; x++) {
             for (int y = x + 1; y < this.size; y++) { // x = 09/29/2022 y
                 if (this.mlist[x].getExpire().compareTo(this.mlist[y].getExpire()) > 0) {
@@ -120,11 +130,13 @@ public class MemberDatabase {
 
             System.out.println(this.mlist[x]);
         }
+        System.out.println("-end of list-");
     }
 
     public void printByName() {
         Member tempMember;
 
+        System.out.println("-list of members sorted by last name, and first name-");
         for (int x = 0; x < this.size; x++) {
             for (int y = x + 1; y < this.size; y++) {
                 if (this.mlist[x].getLname().compareTo(this.mlist[y].getLname()) > 0) {
@@ -142,5 +154,6 @@ public class MemberDatabase {
 
             System.out.println(this.mlist[x]);
         }
+        System.out.println("-end of list-");
     }
 }
