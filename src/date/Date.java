@@ -39,7 +39,7 @@ public class Date implements Comparable<Date> {
     public int getDay() {
         return this.DAY;
     }
-    
+
     @Override
     public int compareTo(Date date) {
         // When this is higher than date, be positive!

@@ -84,6 +84,11 @@ public class MemberDatabase {
 
     public void print() {
 
+        if (this.size == 0) {
+            System.out.println("Member Database is empty!");
+            return;
+        }
+
         System.out.println("-list of members-");
         for (int x = 0; x < this.size; x++) {
             System.out.println(this.mlist[x]);
@@ -92,6 +97,11 @@ public class MemberDatabase {
     }
 
     public void printByCounty() {
+        if (this.size == 0) {
+            System.out.println("Member Database is empty!");
+            return;
+        }
+
         Member tempMember;
 
         System.out.println("-list of members sorted by county and zipcode-");
@@ -116,6 +126,11 @@ public class MemberDatabase {
     }
 
     public void printByExpirationDate() {
+        if (this.size == 0) {
+            System.out.println("Member Database is empty!");
+            return;
+        }
+
         Member tempMember;
 
         System.out.println("-list of members sorted by member expiration date-");
@@ -134,6 +149,11 @@ public class MemberDatabase {
     }
 
     public void printByName() {
+        if (this.size == 0) {
+            System.out.println("Member Database is empty!");
+            return;
+        }
+
         Member tempMember;
 
         System.out.println("-list of members sorted by last name, and first name-");
