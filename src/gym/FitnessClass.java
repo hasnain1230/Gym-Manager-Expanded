@@ -167,7 +167,7 @@ public class FitnessClass {
             }
 
             for (int y = 0; y < classSize[x]; y++) {
-                System.out.printf("\t %s", membersInClass[x][y]);
+                System.out.printf("\t %s\n", membersInClass[x][y]);
             }
         }
 

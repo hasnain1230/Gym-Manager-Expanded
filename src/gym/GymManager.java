@@ -162,6 +162,8 @@ public class GymManager {
             } else {
                 System.out.printf("%s is an invalid command!\n", lineParts[0]);
             }
+
+            System.out.println();
         }
 
         System.out.println("Gym Manager terminated.");
