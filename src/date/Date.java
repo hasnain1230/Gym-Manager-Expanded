@@ -25,6 +25,9 @@ public class Date implements Comparable<Date> {
         this.MONTH = Integer.parseInt(dateParts[0]);
     }
 
+    /**
+     * @return Returns year.
+     */
     public int getYear() {
         return this.YEAR;
     }
@@ -36,7 +39,7 @@ public class Date implements Comparable<Date> {
     public int getDay() {
         return this.DAY;
     }
-
+    
     @Override
     public int compareTo(Date date) {
         // When this is higher than date, be positive!
@@ -119,6 +122,10 @@ public class Date implements Comparable<Date> {
     }
 
     public boolean isValid() {
+        if (this.YEAR < Constants.MIN_YEAR) {
+            return false;
+        }
+
         if (this.MONTH < Constants.MIN_MONTH || this.MONTH > Constants.MAX_MONTH) {
             return false;
         }
@@ -150,19 +157,118 @@ public class Date implements Comparable<Date> {
     }
 
     public static void main(String[] args) {
-        // FIXME: Write proper test cases
-        Date d = new Date("01/31/2001");
-        Date d1 = new Date("01/30/2001");
 
-        System.out.println(d1); //should give 1
+        Date today = new Date();
 
-        System.out.println(d.YEAR);
-        System.out.println(d.MONTH);
-        System.out.println(d.DAY);
+        //Test cases for isValid()
 
-        System.out.println(d1.YEAR);
-        System.out.println(d1.MONTH);
-        System.out.println(d1.DAY);
+        //Test Case #1
+        Date notValidYear = new Date("1/1/800");
+        System.out.println(notValidYear.isValid());
+
+        //Test Case #2
+        Date notValidMonth = new Date("13/1/2022");
+        System.out.println(notValidMonth.isValid());
+
+        //Test Case #3
+        Date notValidMonth2 = new Date("0/1/2022");
+        System.out.println(notValidMonth2.isValid());
+
+        //Test Case #4
+        Date nonLeapYear = new Date("2/29/2021");
+        System.out.println(nonLeapYear.isValid());
+
+        //Test Case #5
+        Date nonLeapYear2 = new Date("2/28/2021");
+        System.out.println(nonLeapYear2.isValid());
+
+        //Test Case #6
+        Date leapYear = new Date("2/29/2020");
+        System.out.println(leapYear.isValid());
+
+        //Test Case #7
+        Date leapYear2 = new Date("2/30/2020");
+        System.out.println(leapYear2.isValid());
+
+        //Test Case #8
+        Date janDay = new Date("1/32/2020");
+        System.out.println(janDay.isValid());
+
+        //Test Case #9
+        Date marDay = new Date("3/31/2020");
+        System.out.println(marDay.isValid());
+
+        //Test Case #10
+        Date mayDay = new Date("5/32/2020");
+        System.out.println(mayDay.isValid());
+
+        //Test Case #11
+        Date julyDay = new Date("7/31/2020");
+        System.out.println(julyDay.isValid());
+
+        //Test Case #12
+        Date augDay = new Date("8/32/2020");
+        System.out.println(augDay.isValid());
+
+        //Test Case #13
+        Date octDay = new Date("10/31/2020");
+        System.out.println(octDay.isValid());
+
+        //Test Case #14
+        Date decDay = new Date("12/32/2020");
+        System.out.println(decDay.isValid());
+
+        //Test Case #15
+        Date aprDay = new Date("4/30/2020");
+        System.out.println(aprDay.isValid());
+
+        //Test Case #16
+        Date juneDay = new Date("6/31/2020");
+        System.out.println(juneDay.isValid());
+
+        //Test Case #17
+        Date sepDay = new Date("9/30/2020");
+        System.out.println(sepDay.isValid());
+
+        //Test Case #18
+        Date novDay = new Date("11/31/2020");
+        System.out.println(novDay.isValid());
+
+        //Test Case #19
+        Date notValidDay = new Date("9/0/2020");
+        System.out.println(notValidDay.isValid());
+
+        //Test cases for compareTo()
+
+        //Test Case #1
+        Date past = new Date("9/1/2022");
+        System.out.println(past.compareTo(today));
+
+        //Test Case #2
+        Date today2 = new Date();
+        System.out.println(today2.compareTo(today));
+
+        //Test Case #3
+        Date future = new Date("11/1/2022");
+        System.out.println(future.compareTo(today));
+
+        // Test Cases for checkIfDobIsFuture()
+
+        //Test Case #1
+        System.out.println(past.checkIfDobIsFuture());
+
+        //Test Case #2
+        System.out.println(future.checkIfDobIsFuture());
+
+        //Test cases for checkMemberAge()
+
+        //Test Case #1
+        Date adult = new Date("9/26/1990");
+        System.out.println(adult.checkMemberAge());
+
+        //Test Case #2
+        Date young = new Date("9/26/2022");
+        System.out.println(young.checkMemberAge());
 
     }
 }
