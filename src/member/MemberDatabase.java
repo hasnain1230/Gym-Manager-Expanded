@@ -2,28 +2,56 @@ package member;
 
 import constants.Constants;
 import date.Date;
-import enums.Location;
 
+/**
+ * This class defines the Member Database using a single one dimensional array.
+ * That array will store all the added members to the database.
+ * @author Hasnain Ali, Carolette Saguil
+ */
 public class MemberDatabase {
+    /**
+     * Members array / database
+     */
     private Member[] mlist;
+    /**
+     * Current size of member database.
+     */
     private int size;
 
+    /**
+     * Instantiates an empty Member Database where it's size is 0. Instantiates a member array of default array size of 4
+     * that will store members added to the database and later grow as needed.
+     */
     public MemberDatabase() {
         this.size = 0;
         mlist = new Member[Constants.ARRAY_DEFAULT_SIZE];
     }
 
+    /**
+     * Looks for member in the member database using member's first name, last name, and date of birth.
+     * @param firstName Member's firstName.
+     * @param lastName Member's lastName.
+     * @param dob Member's date of birth.
+     * @return index of the member in the member database, -1 otherwise.
+     */
     public int find(String firstName, String lastName, Date dob) {
         for (int x = 0; x < this.size; x++) { // Not binary search, this is a naive method, so it's fine
-            if (this.mlist[x].getFname().equals(firstName) && this.mlist[x].getLname().equals(lastName) && this.mlist[x].getDob().compareTo(dob) == 0) {
+            if (this.mlist[x].getFname().equals(firstName)
+                    && this.mlist[x].getLname().equals(lastName)
+                    && this.mlist[x].getDob().compareTo(dob) == 0) {
                 return x;
             }
         }
 
-        return -1;
+        return Constants.NOT_FOUND;
     }
 
 
+    /**
+     * Looks for a Member in the member database.
+     * @param member Member to find the database index for.
+     * @return index of the member in the member database, -1 otherwise.
+     */
     public int find(Member member) {
         for (int x = 0; x < this.size; x++) { // Not binary search, this is a naive method, so it's fine
             if (this.mlist[x].equals(member)) {
@@ -34,13 +62,21 @@ public class MemberDatabase {
         return Constants.NOT_FOUND;
     }
 
+    /**
+     * @param index Index of member in the member database.
+     * @return Returns member at that index in the member database, null if index is invalid / is not in the database.
+     */
     public Member getMember(int index) {
-        if (index == Constants.NOT_FOUND) {
+        if (index < 0 || index > this.size) {
             return null;
         }
         return this.mlist[index];
     }
 
+    /**
+     * Grows the member database when the current database is full.
+     * Size limited by JVM memory allocation. (How big Java will let you make an array before you run out of space).
+     */
     public void grow() {
         Member[] newMemberList = new Member[this.size + 4];
 
@@ -51,6 +87,12 @@ public class MemberDatabase {
         this.mlist = newMemberList;
     }
 
+    /**
+     * Adds member given to the member database.
+     * Returns false if member is already in the member database.
+     * @param member Member to be added.
+     * @return true if member was added, false otherwise.
+     */
     public boolean add(Member member) {
         if (this.find(member) >= 0) {
             return false;
@@ -65,6 +107,12 @@ public class MemberDatabase {
         return true;
     }
 
+    /**
+     * Removes member given from the member database.
+     * Returns false if member is not in the member database.
+     * @param member Member to be removed.
+     * @return true if member was removed, false otherwise.
+     */
     public boolean remove(Member member) {
         int index = this.find(member);
 
@@ -82,6 +130,9 @@ public class MemberDatabase {
         return true;
     }
 
+    /**
+     * Prints out all members in the member database with no sorting.
+     */
     public void print() {
 
         if (this.size == 0) {
@@ -96,6 +147,9 @@ public class MemberDatabase {
         System.out.println("-end of list-");
     }
 
+    /**
+     * Prints out all the members in the member database, sorted by county then zipcode.
+     */
     public void printByCounty() {
         if (this.size == 0) {
             System.out.println("Member Database is empty!");
@@ -125,6 +179,9 @@ public class MemberDatabase {
         System.out.println("-end of list-");
     }
 
+    /**
+     * Prints out all the members in the member database, sorted by expiration date.
+     */
     public void printByExpirationDate() {
         if (this.size == 0) {
             System.out.println("Member Database is empty!");
@@ -148,6 +205,9 @@ public class MemberDatabase {
         System.out.println("-end of list-");
     }
 
+    /**
+     * Prints out all the members in the member database, sorted by last name then first name.
+     */
     public void printByName() {
         if (this.size == 0) {
             System.out.println("Member Database is empty!");

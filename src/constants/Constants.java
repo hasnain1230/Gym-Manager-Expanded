@@ -1,7 +1,10 @@
 package constants;
 
+/**
+ * This class stores all the constants used in {@code GymManager} and its dependencies.
+ * @author Hasnain Ali, Carolette Saguil
+ */
 public class Constants {
-
     public static final int QUADRENNIAL = 4;
     public static final int CENTENNIAL = 100;
     public static final int QUATERCENTENNIAL = 400;
