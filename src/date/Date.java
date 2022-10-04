@@ -2,15 +2,22 @@ package date;
 
 import java.util.Calendar;
 import constants.Constants;
-import member.Member;
 
+/**
+ * This class defines a date using a year, month, and day. In this class, it can check whether the date is a valid date, compare dates to one
+ * another, check if a date is in the future, and use dates to check a member's age.
+ * @author Hasnain Ali, Carolette Saguil
+ */
 public class Date implements Comparable<Date> {
 
     private final int YEAR;
     private final int MONTH;
     private final int DAY;
 
-    public Date() { // default constructor 1 for today's date
+    /**
+     * Default constructor that instantiates today's date if there is no input.
+     */
+    public Date() {
         Calendar calendar = Calendar.getInstance();
 
         this.YEAR = calendar.get(Calendar.YEAR);
@@ -18,7 +25,11 @@ public class Date implements Comparable<Date> {
         this.DAY = calendar.get(Calendar.DAY_OF_MONTH);
     }
 
-    public Date(String date) { //constructor 2 for input date mm/dd/yyyy
+    /**
+     * Constructor that instantiates a new date using the input date.
+     * @param date Date in the format mm/dd/yyyy. Allows for single digit month and day inputs. Year must be four digits.
+     */
+    public Date(String date) {
         String[] dateParts = date.split("/");
         this.YEAR = Integer.parseInt(dateParts[2]);
         this.DAY = Integer.parseInt(dateParts[1]);
@@ -32,30 +43,31 @@ public class Date implements Comparable<Date> {
         return this.YEAR;
     }
 
+    /**
+     * @return Returns month.
+     */
     public int getMonth() {
         return this.MONTH;
     }
 
+    /**
+     * @return Returns day.
+     */
     public int getDay() {
         return this.DAY;
     }
 
+    /**
+     * Compares two dates together and is able to determine whether date to be compared is after, same, or
+     * before this date.
+     * @param date Date to be compared.
+     * @return -1 if the date to be compared is after, 0 if the dates are the same, 1 if the date to be
+     * compared is before. This is because if the current instance is after compared to {@code date}, then this - date
+     * would return a negative number because this is after, so it's forward in time, thus yielding a negative value. The
+     * same logic applies if this is before {@code date}.
+     */
     @Override
     public int compareTo(Date date) {
-        // When this is higher than date, be positive!
-        // this == 01/01/2020
-        // date == 01/01/2024
-        // this.Date.compareTo(date) -----> -1
-
-        // this == 01/01/1970
-        // date == 01/01/1970
-        // this.Date.compareTo(date) (when both dates are the same) ------> 0
-
-        // this == 01/01/2020
-        // date == 01/01/2018
-        // this.Date.compareTo(date) --------> 1
-
-
         if (this.YEAR == date.getYear() && this.MONTH == date.getMonth() && this.DAY == date.getDay()) {
             return 0;
         }
@@ -75,16 +87,18 @@ public class Date implements Comparable<Date> {
         return -1;
     }
 
+    /**
+     * Checks if date is after today, or not. Meant specifically for date of birth given by client.
+     * @return true if date is in the past, false if date is in the future or is today
+     */
     public boolean checkIfDobIsFuture() {
-        Date today = new Date();
-
-        if (this.compareTo(today) >= 0) { // This means their DOB is in the future and/or today
-            return false;
-        }
-
-        return true;
+        return this.compareTo(new Date()) < 0;
     }
 
+    /**
+     * Check if member is 18 years or older.
+     * @return true if member is 18 years or older, false otherwise.
+     */
     public boolean checkMemberAge() {
         Date today = new Date();
         int currentYear = today.getYear();
@@ -108,6 +122,11 @@ public class Date implements Comparable<Date> {
         return false;
     }
 
+    /**
+     * Checks if year given is a leap year.
+     * @param year Year to be checked.
+     * @return true if year is a leap year, false otherwise.
+     */
     private boolean isLeapYear(int year) {
         if (year % Constants.QUADRENNIAL == 0) {
             if (year % Constants.CENTENNIAL == 0) {
@@ -121,6 +140,13 @@ public class Date implements Comparable<Date> {
         return false;
     }
 
+    /**
+     * Checks if date given by client is a valid calendar date.
+     * Checks if year given and month given is in valid range.
+     * Checks if day is in valid range depending on the month.
+     * If month is February, checks if it is a leap year or not, then checks if the day is valid depending on the year.
+     * @return true if the date is valid calendar date, false otherwise.
+     */
     public boolean isValid() {
         if (this.YEAR < Constants.MIN_YEAR) {
             return false;
@@ -151,11 +177,19 @@ public class Date implements Comparable<Date> {
         return true;
     }
 
+    /**
+     * @return Returns string representation of the date in the format mm/dd/yy.
+     */
     @Override
     public String toString() {
         return String.format("%d/%d/%d", this.MONTH, this.DAY, this.YEAR);
     }
 
+    /**
+     * Testbed main used to check all {@code Date} methods.
+     * Mainly used to check the isValid() method but checks compareTo(), checkIfDobIsFuture(), and CheckMemberAge() as well.
+     * @param args No command line arguments are accepted here; should be empty.
+     */
     public static void main(String[] args) {
 
         Date today = new Date();
@@ -269,6 +303,5 @@ public class Date implements Comparable<Date> {
         //Test Case #2
         Date young = new Date("9/26/2022");
         System.out.println(young.checkMemberAge());
-
     }
 }
