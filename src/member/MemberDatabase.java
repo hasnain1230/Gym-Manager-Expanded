@@ -35,7 +35,7 @@ public class MemberDatabase {
      * @return index of the member in the member database, -1 otherwise.
      */
     public int find(String firstName, String lastName, Date dob) {
-        for (int x = 0; x < this.size; x++) { // Not binary search, this is a naive method, so it's fine
+        for (int x = 0; x < this.size; x++) { // Not binary search, it's fine for this project.
             if (this.mlist[x].getFname().equals(firstName)
                     && this.mlist[x].getLname().equals(lastName)
                     && this.mlist[x].getDob().compareTo(dob) == 0) {
@@ -53,7 +53,7 @@ public class MemberDatabase {
      * @return index of the member in the member database, -1 otherwise.
      */
     public int find(Member member) {
-        for (int x = 0; x < this.size; x++) { // Not binary search, this is a naive method, so it's fine
+        for (int x = 0; x < this.size; x++) { // Not binary search, it's fine for this project.
             if (this.mlist[x].equals(member)) {
                 return x;
             }

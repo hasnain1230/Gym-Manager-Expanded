@@ -6,16 +6,34 @@ package enums;
  * @author Hasnain Ali, Carolette Saguil
  */
 public enum Time {
+    /**
+     * "Pilates", 0, "9:30", "JENNIFER"
+     */
     PILATES("Pilates", 0, "9:30", "JENNIFER"),
+    /**
+     * "Spinning", 1, "14:00", "DENISE"
+     */
     SPINNING("Spinning", 1, "14:00", "DENISE"),
+    /**
+     * "Cardio", 2, "14:00", "KIM"
+     */
     CARDIO("Cardio", 2, "14:00", "KIM");
 
+    /**
+     * The class name.
+     */
     private final String CLASS_NAME;
     /**
      * Class Index in the FitnessClass Database in {@code FitnessClass}.
      */
     private final int CLASS_INDEX;
+    /**
+     * The time.
+     */
     private final String TIME;
+    /**
+     * The instructor's name.
+     */
     private final String INSTRUCTOR;
 
     /**

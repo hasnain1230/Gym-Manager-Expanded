@@ -17,6 +17,15 @@ import java.util.Scanner;
  * @author Hasnain Ali, Carolette Saguil
  */
 public class GymManager {
+
+
+    /**
+     * Default constructor; not used.
+     */
+    public GymManager() {
+
+    }
+
     /**
      * Adds a member to the member database.
      * Fails if: Date of birth is invalid, date of birth is in the future, member is younger than 18 years old, expiration
@@ -40,7 +49,7 @@ public class GymManager {
         } else if (!member.getExpire().isValid()) {
             System.out.printf("Expiration Date %s: invalid calendar date!\n", member.getExpire());
             return;
-        } else if (member.getLocation() == null) { // TODO: Make sure this is valid.
+        } else if (member.getLocation() == null) {
             System.out.printf("%s: invalid location!\n", lineParts[5]);
             return;
         }

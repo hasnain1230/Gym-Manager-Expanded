@@ -153,9 +153,9 @@ public class Member implements Comparable<Member> {
 
         System.out.println();
         // ************************ Testing Member.equals() ************************
-        Member memberToTest2 = new Member("Rick", "Astely", new Date("04/20/1969"),
+        Member memberToTest2 = new Member("Rick", "Astley", new Date("04/20/1969"),
                 new Date("10/07/2022"), Location.PISCATAWAY);
-        Member memberToTest3 = new Member("Rick", "Astely", new Date("06/09/1969"),
+        Member memberToTest3 = new Member("Rick", "Astley", new Date("06/09/1969"),
                 new Date("10/07/2022"), Location.SOMERVILLE);
 
         System.out.println(memberToTest1.equals(memberToTest2)); // Should print true
@@ -169,18 +169,50 @@ public class Member implements Comparable<Member> {
                 new Date("10/07/2022"), Location.SOMERVILLE);
         Member memberToTest5 = new Member("Kayne", "Obama", new Date("8/4/1961"),
                 new Date("10/07/2022"), Location.SOMERVILLE);
+        Member memberToTest6 = new Member("Barac", "Obama", new Date("8/4/1961"),
+                new Date("10/07/2022"), Location.SOMERVILLE);
+        Member memberToTest7 = new Member("Barack", "Obame", new Date("8/4/1961"),
+                new Date("10/07/2022"), Location.SOMERVILLE);
+        Member memberToTest8 = new Member("Barax", "Obama", new Date("8/4/1961"),
+                new Date("10/07/2022"), Location.SOMERVILLE);
+        Member memberToTest9 = new Member("Barack", "Obama", new Date("8/4/1961"),
+                new Date("10/07/2022"), Location.SOMERVILLE);
+        Member memberToTest10 = new Member("Baracx", "Obama", new Date("8/4/1961"),
+                new Date("10/07/2022"), Location.SOMERVILLE);
 
+        // Test Case 1
         System.out.println(memberToTest1.compareTo(memberToTest2)); // Names are the same, hence 0
-        System.out.println(memberToTest2.compareTo(memberToTest3)); // Names are the same, hence 0
+        System.out.println();
 
-        System.out.println(memberToTest4.compareTo(memberToTest1)); // Prints positive number since Obama comes after Astely
-        System.out.println(memberToTest1.compareTo(memberToTest4)); // Prints negative number since Astely comes before Obama
+        // Test Case 2
+        System.out.println(memberToTest4.compareTo(memberToTest1)); // Prints positive number since Obama comes after Astley
+        // Test Case 3
+        System.out.println(memberToTest1.compareTo(memberToTest4)); // Prints negative number since Astley comes before Obama
+        System.out.println();
 
-        System.out.println(memberToTest5.compareTo(memberToTest4));
-        System.out.println(memberToTest4.compareTo());
+        // Test Case 4
+        System.out.println(memberToTest5.compareTo(memberToTest4)); // Same last name, different first name
+        // Test Case 5
+        System.out.println(memberToTest4.compareTo(memberToTest5));
+        System.out.println();
 
+        // Test Case 6
+        System.out.println(memberToTest4.compareTo(memberToTest6)); // Similar first names, same last names
+        // Test Case 7
+        System.out.println(memberToTest6.compareTo(memberToTest4));
+        // Test Case 8
+        System.out.println(memberToTest8.compareTo(memberToTest4)); // "ax" comes after "ck"
+        // Test Case 9
+        System.out.println(memberToTest4.compareTo(memberToTest8)); // "ck" comes before "ax"
+        System.out.println();
 
-
-
+        // Test Case 10
+        System.out.println(memberToTest7.compareTo(memberToTest4)); // Similar last names, same first name
+        // Test Case 11
+        System.out.println(memberToTest4.compareTo(memberToTest7));
+        // Test Case 12
+        System.out.println(memberToTest10.compareTo(memberToTest9));
+        // Test Case 13
+        System.out.println(memberToTest9.compareTo(memberToTest10));
     }
 }
