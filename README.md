@@ -1,4 +1,7 @@
-# Gym-Manager
+# Gym-Manager Expanded
+
+**Refactored and Expanded Version of Previous Gym Manager.**
+
 This is a project that emulates a chain of gyms. This project establishes a 
 database of users and allows a gym manager to enter commands that will manipulate
 and display the state of the database of members. Managers can add and delete members
