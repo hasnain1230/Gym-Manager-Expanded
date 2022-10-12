@@ -10,8 +10,17 @@ import constants.Constants;
  */
 public class Date implements Comparable<Date> {
 
+    /**
+     * The year.
+     */
     private final int YEAR;
+    /**
+     * The month.
+     */
     private final int MONTH;
+    /**
+     * The day.
+     */
     private final int DAY;
 
     /**

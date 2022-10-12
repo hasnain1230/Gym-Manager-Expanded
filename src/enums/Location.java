@@ -6,14 +6,38 @@ package enums;
  * @author Hasnain Ali, Carolette Saguil
  */
 public enum Location {
+    /**
+     * "Bridgewater", "08837", "Somerset County"
+     */
     BRIDGEWATER("Bridgewater", "08837", "Somerset County"),
+    /**
+     * "Edison", "08837", "Middlesex County"
+     */
     EDISON("Edison", "08837", "Middlesex County"),
+    /**
+     * "Franklin", "08873", "Somerset County"
+     */
     FRANKLIN("Franklin", "08873", "Somerset County"),
+    /**
+     * "Piscataway", "08854", "Middlesex County"
+     */
     PISCATAWAY("Piscataway", "08854", "Middlesex County"),
+    /**
+     * "Somerville", "08876", "Somerset County"
+     */
     SOMERVILLE("Somerville", "08876", "Somerset County");
 
+    /**
+     * The town.
+     */
     private final String TOWN;
+    /**
+     * The postal code.
+     */
     private final String POSTALCODE;
+    /**
+     * The county.
+     */
     private final String COUNTY;
 
     /**

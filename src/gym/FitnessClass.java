@@ -106,7 +106,6 @@ public class FitnessClass {
      * @return true if membership has expired, false otherwise.
      */
     public boolean checkIfMemberExpired(Member member) {
-        // if expiration date has same date as today or is before today return true because membership is expired
         return member.getExpire().compareTo(new Date()) <= 0;
     }
 
@@ -160,11 +159,10 @@ public class FitnessClass {
      * @return <b>true</b> if the member was successfully checked in; <b>false</b> otherwise.
      */
     public boolean checkIn(Member member) { // Assuming that they allowed to do this if they are calling this method.
-        if (!checkIfMemberExpired(member) && findMemberInClass(member) == Constants.NOT_FOUND) { //FIXME: add back time conflict when sure it's working
+        if (!checkIfMemberExpired(member) && findMemberInClass(member) == Constants.NOT_FOUND) {
             if (classSize[this.FITNESS_CLASS.getClassIndex()] == membersInClass[this.FITNESS_CLASS.getClassIndex()].length) {
                 this.grow();
             }
-
 
             membersInClass[this.FITNESS_CLASS.getClassIndex()][classSize[this.FITNESS_CLASS.getClassIndex()]] = member;
             classSize[this.FITNESS_CLASS.getClassIndex()]++;
