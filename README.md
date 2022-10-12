@@ -76,3 +76,4 @@ This program was written by my friend and I.
 Please Note: Since my friend wished to avoid common problems with Git (merge conflicts and other issues), and since 
 this application was developed in a pair programming environment on my machine, my friend did not push commits to Git. **However**
 **this application was completed by the two of us with equal contributions from both of us.**
+
