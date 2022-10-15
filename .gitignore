@@ -27,6 +27,7 @@ hs_err_pid*
 Gym Manager.iml
 Gym-Manager.iml
 Gym-Manager-Expanded.iml
+out/
 
 # MacOS Files
 src/.DS_Store
