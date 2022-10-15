@@ -30,4 +30,22 @@ public class Constants {
     public static final int NUMBER_OF_CLASSES = 3;
 
     public static final int NOT_FOUND = -1;
+
+    // TODO: Document these variables since they are confusing
+
+    public static final double STANDARD_ONE_TIME_MEMBER_FEE = 29.99;
+    public static final double STANDARD_MONTHLY_FEE = 39.99;
+    public static final double STANDARD_MEMBERSHIP_PAYMENT_FREQUENCY = 3.0;
+
+    public static final double FAMILY_ONE_TIME_MEMBER_FEE = 29.99;
+    public static final double FAMILY_MONTHLY_FEE = 59.99;
+    public static final double FAMILY_MEMBERSHIP_PAYMENT_FREQUENCY = 3.0;
+    public static final short FAMILY_GUEST_PASSES = 1;
+
+    public static final double PREMIUM_MEMBER_ONE_TIME_FEE = 0.0;
+    public static final double PREMIUM_MONTHLY_FEE = 59.99;
+    public static final double PREMIUM_MEMBERSHIP_PAYMENT_FREQUENCY = 11;
+    public static final short PREMIUM_GUEST_PASS = 3;
+
+    public static final String CLASS_SCHEDULE_FROM_CONTENT_ROOT = "src/data/classSchedule.txt";
 }

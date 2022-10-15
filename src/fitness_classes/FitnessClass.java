@@ -1,4 +1,4 @@
-package gym;
+package fitness_classes;
 
 import enums.Time;
 import member.Member;

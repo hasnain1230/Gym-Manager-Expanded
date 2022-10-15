@@ -1,5 +1,6 @@
 package member;
 
+import constants.Constants;
 import date.Date;
 import enums.Location;
 
@@ -35,6 +36,17 @@ public class Member implements Comparable<Member> {
      * Gym Location
      */
     private final Location location;
+
+    /*
+        A John Doe 9/2/2022 BRIDGEWATER
+        A John Doe 12/2/2022 BRIDGEWATER
+        A John Doe 12/20/2004 BRIDGEWATER
+        A John Doe 2/29/2003 BRIDGEWATER
+        A John Doe 4/31/2003 BRIDGEWATER
+        A John Doe 13/31/2003 BRIDGEWATER
+        A John Doe 3/32/2003 BRIDGEWATER
+        A John Doe -1/31/2003 BRIDGEWATER
+    */
 
     /**
      * Constructor that instantiates the state of a Member.
@@ -85,6 +97,10 @@ public class Member implements Comparable<Member> {
      */
     public Location getLocation() {
         return this.location;
+    }
+
+    public double getMembershipFee() {
+        return Constants.STANDARD_ONE_TIME_MEMBER_FEE + (Constants.STANDARD_MONTHLY_FEE * Constants.STANDARD_MEMBERSHIP_PAYMENT_FREQUENCY);
     }
 
     /**

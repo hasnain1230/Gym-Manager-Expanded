@@ -13,15 +13,15 @@ public class Date implements Comparable<Date> {
     /**
      * The year.
      */
-    private final int YEAR;
+    private int year;
     /**
      * The month.
      */
-    private final int MONTH;
+    private int month;
     /**
      * The day.
      */
-    private final int DAY;
+    private int day;
 
     /**
      * Default constructor that instantiates today's date if there is no input.
@@ -29,9 +29,9 @@ public class Date implements Comparable<Date> {
     public Date() {
         Calendar calendar = Calendar.getInstance();
 
-        this.YEAR = calendar.get(Calendar.YEAR);
-        this.MONTH = calendar.get(Calendar.MONTH) + 1;
-        this.DAY = calendar.get(Calendar.DAY_OF_MONTH);
+        this.year = calendar.get(Calendar.YEAR);
+        this.month = calendar.get(Calendar.MONTH) + 1;
+        this.day = calendar.get(Calendar.DAY_OF_MONTH);
     }
 
     /**
@@ -40,30 +40,30 @@ public class Date implements Comparable<Date> {
      */
     public Date(String date) {
         String[] dateParts = date.split("/");
-        this.YEAR = Integer.parseInt(dateParts[2]);
-        this.DAY = Integer.parseInt(dateParts[1]);
-        this.MONTH = Integer.parseInt(dateParts[0]);
+        this.year = Integer.parseInt(dateParts[2]);
+        this.day = Integer.parseInt(dateParts[1]);
+        this.month = Integer.parseInt(dateParts[0]);
     }
 
     /**
      * @return Returns year.
      */
     public int getYear() {
-        return this.YEAR;
+        return this.year;
     }
 
     /**
      * @return Returns month.
      */
     public int getMonth() {
-        return this.MONTH;
+        return this.month;
     }
 
     /**
      * @return Returns day.
      */
     public int getDay() {
-        return this.DAY;
+        return this.day;
     }
 
     /**
@@ -77,17 +77,17 @@ public class Date implements Comparable<Date> {
      */
     @Override
     public int compareTo(Date date) {
-        if (this.YEAR == date.getYear() && this.MONTH == date.getMonth() && this.DAY == date.getDay()) {
+        if (this.year == date.getYear() && this.month == date.getMonth() && this.day == date.getDay()) {
             return 0;
         }
 
-        if (this.YEAR > date.getYear()) {
+        if (this.year > date.getYear()) {
             return 1;
-        } else if (this.YEAR == date.getYear()) {
-            if (this.MONTH > date.getMonth()) {
+        } else if (this.year == date.getYear()) {
+            if (this.month > date.getMonth()) {
                 return 1;
-            } else if (this.MONTH == date.getMonth()) {
-                if (this.DAY > date.getDay()) {
+            } else if (this.month == date.getMonth()) {
+                if (this.day > date.getDay()) {
                     return 1;
                 }
             }
@@ -114,15 +114,15 @@ public class Date implements Comparable<Date> {
         int currentMonth = today.getMonth();
         int currentDay = today.getDay();
 
-        int yearDifference = currentYear - this.YEAR;
+        int yearDifference = currentYear - this.year;
 
         if (yearDifference > Constants.MINIMUM_AGE) {
             return true;
         } else if (yearDifference == Constants.MINIMUM_AGE) {
-            if ((currentMonth - this.MONTH) > 0) {
+            if ((currentMonth - this.month) > 0) {
                 return true;
-            } else if ((currentMonth - this.MONTH) == 0) {
-                if ((currentDay - this.DAY) >= 0) {
+            } else if ((currentMonth - this.month) == 0) {
+                if ((currentDay - this.day) >= 0) {
                     return true;
                 }
             }
@@ -157,33 +157,47 @@ public class Date implements Comparable<Date> {
      * @return true if the date is valid calendar date, false otherwise.
      */
     public boolean isValid() {
-        if (this.YEAR < Constants.MIN_YEAR) {
+        if (this.year < Constants.MIN_YEAR) {
             return false;
         }
 
-        if (this.MONTH < Constants.MIN_MONTH || this.MONTH > Constants.MAX_MONTH) {
+        if (this.month < Constants.MIN_MONTH || this.month > Constants.MAX_MONTH) {
             return false;
         }
 
-        if (this.DAY < Constants.MIN_DAYS){
+        if (this.day < Constants.MIN_DAYS){
             return false;
         }
 
-        if (isLeapYear(this.YEAR) && this.MONTH == Constants.FEBRUARY && this.DAY > Constants.MAX_LEAP_FEB_DAYS) {
+        if (isLeapYear(this.year) && this.month == Constants.FEBRUARY && this.day > Constants.MAX_LEAP_FEB_DAYS) {
             return false;
-        } else if (!isLeapYear(this.YEAR) && this.MONTH == Constants.FEBRUARY && this.DAY > Constants.MAX_NORM_FEB_DAYS) {
+        } else if (!isLeapYear(this.year) && this.month == Constants.FEBRUARY && this.day > Constants.MAX_NORM_FEB_DAYS) {
             return false;
         }
 
-        if (this.MONTH == Constants.APRIL || this.MONTH == Constants.JUNE || this.MONTH == Constants.SEPTEMBER || this.MONTH == Constants.NOVEMBER) {
-            if (this.DAY > Constants.MAX_DAYS_ONE) {
+        if (this.month == Constants.APRIL || this.month == Constants.JUNE || this.month == Constants.SEPTEMBER || this.month == Constants.NOVEMBER) {
+            if (this.day > Constants.MAX_DAYS_ONE) {
                 return false;
             }
-        } else if ( this.MONTH != Constants.FEBRUARY && this.DAY > Constants.MAX_DAYS_TWO) {
+        } else if( this.month != Constants.FEBRUARY && this.day > Constants.MAX_DAYS_TWO) {
             return false;
         }
 
         return true;
+    }
+
+    public void incrementMonth(int increment) {
+        int incrementedMonth = this.month + increment;
+        if (incrementedMonth > 12) {
+            this.year += incrementedMonth / 12;
+            this.month = incrementedMonth % 12;
+        } else {
+            this.month = incrementedMonth;
+        }
+    }
+
+    public void incrementYear(int increment) {
+        this.year += increment;
     }
 
     /**
@@ -191,7 +205,7 @@ public class Date implements Comparable<Date> {
      */
     @Override
     public String toString() {
-        return String.format("%d/%d/%d", this.MONTH, this.DAY, this.YEAR);
+        return String.format("%d/%d/%d", this.month, this.day, this.year);
     }
 
     /**

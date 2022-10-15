@@ -34,7 +34,9 @@ public class MemberDatabase {
      * @param dob Member's date of birth.
      * @return index of the member in the member database, -1 otherwise.
      */
-    public int find(String firstName, String lastName, Date dob) {
+
+    // FIXME: Multiple Parameters
+    public int find(String firstName, String lastName, Date dob) { // This isn't that bad to refactor for project 2
         for (int x = 0; x < this.size; x++) { // Not binary search, it's fine for this project.
             if (this.mlist[x].getFname().equals(firstName)
                     && this.mlist[x].getLname().equals(lastName)

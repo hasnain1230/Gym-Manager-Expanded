@@ -3,9 +3,12 @@ package gym;
 import constants.Constants;
 import enums.Time;
 import enums.Location;
+import fitness_classes.FitnessClass;
+import member.Family;
 import member.Member;
 import date.Date;
 import member.MemberDatabase;
+import member.Premium;
 
 import java.util.Scanner;
 
@@ -34,9 +37,25 @@ public class GymManager {
      * @param memberDatabase The member database that was created for all current members. Only one exists.
      */
     private void addMember (String[] lineParts, MemberDatabase memberDatabase) {
-        Member member = new Member(lineParts[1], lineParts[2], new Date(lineParts[3]), new Date(lineParts[4]),
-                Location.returnEnumFromString(lineParts[5]));
 
+        Member member = null;
+        Date expire = new Date();
+
+        if (lineParts[0].equals("A")) {
+            expire.incrementMonth(3);
+            member = new Member(lineParts[1], lineParts[2], new Date(lineParts[3]), expire,
+                    Location.returnEnumFromString(lineParts[4]));
+        } else if (lineParts[0].equals("AF")) {
+            expire.incrementMonth(3);
+            member = new Family(lineParts[1], lineParts[2], new Date(lineParts[3]), expire,
+                    Location.returnEnumFromString(lineParts[4]), Constants.FAMILY_GUEST_PASSES);
+        } else if (lineParts[0].equals("AP")) {
+            expire.incrementYear(1);
+            member = new Premium(lineParts[1], lineParts[2], new Date(lineParts[3]), expire,
+                    Location.returnEnumFromString(lineParts[4]), Constants.PREMIUM_GUEST_PASS);
+        }
+
+        assert member != null;
         if (!member.getDob().isValid()) {
             System.out.printf("DOB %s: invalid calendar date!\n", member.getDob());
             return;
@@ -50,7 +69,7 @@ public class GymManager {
             System.out.printf("Expiration Date %s: invalid calendar date!\n", member.getExpire());
             return;
         } else if (member.getLocation() == null) {
-            System.out.printf("%s: invalid location!\n", lineParts[5]);
+            System.out.printf("%s: invalid location!\n", lineParts[4]);
             return;
         }
 
@@ -59,6 +78,11 @@ public class GymManager {
         } else {
             System.out.printf("%s %s is already in the database.\n", member.getFname(), member.getLname());
         }
+    }
+
+    private static boolean loadFitnessClasses() {
+        Scanner sc = new Scanner(Constants.CLASS_SCHEDULE_FROM_CONTENT_ROOT);
+        return false;
     }
 
     /**
@@ -119,7 +143,7 @@ public class GymManager {
      * @param memberDatabase The member database that was created for all current members.
      * @param fitnessClasses Array consisting of all fitness classes. fitnessClass[0] = Pilates, fitnessClass[1] = Spinning, fitnessClass[2] = Cardio
      */
-    private void checkInMember (String[] lineParts, MemberDatabase memberDatabase, FitnessClass[] fitnessClasses) {
+    private void checkInMember(String[] lineParts, MemberDatabase memberDatabase, FitnessClass[] fitnessClasses) {
         int classIndex = returnClassIndex(lineParts[1]);
         String fname = lineParts[2];
         String lname = lineParts[3];
@@ -257,24 +281,32 @@ public class GymManager {
         while ( !((input = sc.nextLine()).equals("Q")) ) {
             String[] lineParts = input.split(" ");
 
-            if (lineParts[0].equals("A")) {
+            if (lineParts[0].equals("A") || lineParts[0].equals("AF") || lineParts[0].equals("AP")) { //add member
                 addMember(lineParts, memberDatabase);
-            } else if (lineParts[0].equals("R")) {
+            } else if (lineParts[0].equals("PF")) { //print members with fee
+
+            } else if (lineParts[0].equals("R")) { //should work the same as before
                 removeMember(lineParts, memberDatabase);
-            } else if (lineParts[0].equals("P")) {
+            } else if (lineParts[0].equals("P")) { //should work the same as before
                 memberDatabase.print();
-            } else if (lineParts[0].equals("PC")) {
+            } else if (lineParts[0].equals("PC")) { //should work the same as before
                 memberDatabase.printByCounty();
-            } else if (lineParts[0].equals("PN")) {
+            } else if (lineParts[0].equals("PN")) { //should work the same as before
                 memberDatabase.printByName();
-            } else if (lineParts[0].equals("PD")) {
+            } else if (lineParts[0].equals("PD")) {//should work the same as before
                 memberDatabase.printByExpirationDate();
-            } else if (lineParts[0].equals("S")) {
+            } else if (lineParts[0].equals("S")) {//should work the same as before
                 FitnessClass.printClassSchedule();
-            } else if (lineParts[0].equals("C")) {
+            } else if (lineParts[0].equals("C")) { //check in member
                 checkInMember(lineParts, memberDatabase, fitnessClasses);
-            } else if (lineParts[0].equals("D")) {
+            } else if (lineParts[0].equals("CG")) { //checks in guest
+                continue;
+            } else if (lineParts[0].equals("D")) { //member is done with fitness class
                 dropClass(lineParts, memberDatabase, fitnessClasses);
+            } else if (lineParts[0].equals("DG")) { //guest is done with fitness class
+                continue;
+            } else if (lineParts[0].equals("LS")) {
+                loadFitnessClasses();
             } else if (lineParts[0].equals("")) {
                 continue;
             } else {
