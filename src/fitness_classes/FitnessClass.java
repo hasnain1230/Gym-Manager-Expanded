@@ -4,6 +4,7 @@ import enums.Time;
 import member.Member;
 import date.Date;
 import constants.Constants;
+import java.util.ArrayList;
 
 /**
  * This class defines a fitness class and has access to all other fitness classes that exist.
@@ -26,17 +27,15 @@ public class FitnessClass {
      *
      * Each index stores in membersInClass[index] stores the members in that class.
      */
-    private static Member[][] membersInClass;
+    private static Member[] membersInClass;
     /**
      * Stores the current FitnessClass's instance Time enum for the specific class. Effectively, this lets the current
      * FitnessClass instance store the name of the current fitness class.
      */
-    private final Time FITNESS_CLASS;
-    /**
-     * Stores all the Time enums for all the FitnessClasses. This is effectively, so we can get the name of any time conflicting
-     * classes.
-     */
-    private final Time[] ALL_CLASSES;
+    private final Time TIME;
+    private final String CLASS_NAME;
+    private final String INSTRUCTOR_NAME;
+
 
     /**
      * Initializes a 2D static array for the members in the class. Creates a {@code membersInClass} 2D array for
@@ -53,15 +52,12 @@ public class FitnessClass {
      * class are the same as above where 0 is Pilates, 1 is Spinning, and 2 is Cardio. These values do not change throughout the program.
      * @param time Time enum for specifically designed for the fitness class.
      */
-    public FitnessClass(Time time) {
+    public FitnessClass(Time time, String className, String instructorName) {
         membersInClass = new Member[Constants.NUMBER_OF_CLASSES][Constants.ARRAY_DEFAULT_SIZE];
-        this.FITNESS_CLASS = time;
         classSize = new int[Constants.NUMBER_OF_CLASSES];
-
-        this.ALL_CLASSES = new Time[Constants.NUMBER_OF_CLASSES];
-        this.ALL_CLASSES[0] = Time.PILATES;
-        this.ALL_CLASSES[1] = Time.SPINNING;
-        this.ALL_CLASSES[2] = Time.CARDIO;
+        this.TIME = time;
+        this.CLASS_NAME = className;
+        this.INSTRUCTOR_NAME = instructorName;
     }
 
     /**
@@ -78,11 +74,20 @@ public class FitnessClass {
         membersInClass[this.FITNESS_CLASS.getClassIndex()] = newMembersInClass;
     }
 
+    public String getTime() {
+        return this.TIME.getTime();
+    }
+
+
     /**
      * @return Name of Fitness Class.
      */
     public String getClassName() {
-        return this.FITNESS_CLASS.getClassName();
+        return this.CLASS_NAME;
+    }
+
+    public String getInstructorName() {
+        return this.INSTRUCTOR_NAME;
     }
 
     /**
