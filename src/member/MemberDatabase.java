@@ -80,7 +80,7 @@ public class MemberDatabase {
      * Size limited by JVM memory allocation. (How big Java will let you make an array before you run out of space).
      */
     public void grow() {
-        Member[] newMemberList = new Member[this.size + 4];
+        Member[] newMemberList = new Member[this.size + Constants.ARRAY_INCREMENT_SIZE];
 
         for (int x = 0; x < this.size; x++) {
             newMemberList[x] = this.mlist[x];
