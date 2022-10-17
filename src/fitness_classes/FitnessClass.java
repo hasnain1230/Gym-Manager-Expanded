@@ -159,8 +159,7 @@ public class FitnessClass extends ClassSchedule {
      */
     @Override
     public String toString() {
-//        System.out.println("-Fitness classes-");
-        String returnString = String.format("%s - %s %s\n", this.CLASS_NAME, this.INSTRUCTOR_NAME, this.TIME.getTime());
+        String returnString = String.format("%s - %s %s\n", this.CLASS_NAME.toUpperCase(), this.INSTRUCTOR_NAME.toUpperCase(), this.TIME.getTime());
         StringBuilder sb = new StringBuilder(returnString);
 
         for (Member inClass : this.membersInClass) {
@@ -175,7 +174,7 @@ public class FitnessClass extends ClassSchedule {
         FitnessClass fitnessClass = (FitnessClass) obj;
 
         return this.CLASS_NAME.equals(fitnessClass.getClassName()) && this.INSTRUCTOR_NAME.equals(fitnessClass.getInstructorName())
-                && this.TIME.getTime().equals(fitnessClass.getTime()) && this.membersInClass.equals(fitnessClass.getMembersInClass());
+                && this.membersInClass.equals(fitnessClass.getMembersInClass());
     }
 }
 

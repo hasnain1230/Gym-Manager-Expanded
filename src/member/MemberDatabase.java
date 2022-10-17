@@ -28,28 +28,6 @@ public class MemberDatabase {
     }
 
     /**
-     * Looks for member in the member database using member's first name, last name, and date of birth.
-     * @param firstName Member's firstName.
-     * @param lastName Member's lastName.
-     * @param dob Member's date of birth.
-     * @return index of the member in the member database, -1 otherwise.
-     */
-
-    // FIXME: Multiple Parameters
-    public int find(String firstName, String lastName, Date dob) { // This isn't that bad to refactor for project 2
-        for (int x = 0; x < this.size; x++) { // Not binary search, it's fine for this project.
-            if (this.mlist[x].getFname().equals(firstName)
-                    && this.mlist[x].getLname().equals(lastName)
-                    && this.mlist[x].getDob().compareTo(dob) == 0) {
-                return x;
-            }
-        }
-
-        return Constants.NOT_FOUND;
-    }
-
-
-    /**
      * Looks for a Member in the member database.
      * @param member Member to find the database index for.
      * @return index of the member in the member database, -1 otherwise.
