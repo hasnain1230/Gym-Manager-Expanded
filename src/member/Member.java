@@ -99,17 +99,34 @@ public class Member implements Comparable<Member> {
         return this.location;
     }
 
+    /**
+     * @return Returns standard membership fee.
+     */
     public double getMembershipFee() {
         return Constants.STANDARD_ONE_TIME_MEMBER_FEE + (Constants.STANDARD_MONTHLY_FEE * Constants.STANDARD_MEMBERSHIP_PAYMENT_FREQUENCY);
     }
 
     /**
+     * @param fee Standard Membership Fee.
+     * @return Returns string representation of a standard member including the fee in the format firstName lastName, DOB: mm/dd/yy,
+     * Membership expires: mm/dd/yy, Location: location, Membership fee: $fee.
+     */
+    public String toString(double fee){
+        if (this.expire.compareTo(new Date()) <= 0) {
+            return String.format("%s %s, DOB: %s, Membership expired: %s, Location: %s, Membership fee: $%.2f",
+                    this.fname, this.lname, this.dob, this.expire, this.location, fee);
+        }
+        return String.format("%s %s, DOB: %s, Membership expires: %s, Location: %s, Membership fee: $%.2f",
+                this.fname, this.lname, this.dob, this.expire, this.location, fee);
+    }
+
+    /**
      * @return Return string representation of member in the format firstName lastName, DOB: mm/dd/yy,
-     * Membership expires: mm/dd/yy, Location: location
+     * Membership expires: mm/dd/yy, Location: location.
      */
     @Override
     public String toString() {
-        if (this.expire.compareTo(new Date()) <= 0) { // If membership has expired.
+        if (this.expire.compareTo(new Date()) <= 0) {
             return String.format("%s %s, DOB: %s, Membership expired: %s, Location: %s",
                     this.fname, this.lname, this.dob, this.expire, this.location);
         }

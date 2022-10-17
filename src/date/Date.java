@@ -186,6 +186,10 @@ public class Date implements Comparable<Date> {
         return true;
     }
 
+    /**
+     * Increments the month by the amount inputted by the client.
+     * @param increment Number of months we want to increment month by.
+     */
     public void incrementMonth(int increment) {
         int incrementedMonth = this.month + increment;
         if (incrementedMonth > 12) {
@@ -196,6 +200,10 @@ public class Date implements Comparable<Date> {
         }
     }
 
+    /**
+     * Increments the year by the amount inputted by the client.
+     * @param increment Number of years we want to increment year by.
+     */
     public void incrementYear(int increment) {
         this.year += increment;
     }

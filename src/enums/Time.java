@@ -11,13 +11,13 @@ public enum Time {
      */
     MORNING("9:30"),
     /**
-     * "Spinning", 1, "14:00", "DENISE"
+     * "14:00"
      */
     AFTERNOON("14:00"),
     /**
-     * "Cardio", 2, "14:00", "KIM"
+     * "18:30"
      */
-    EVENING( "18:30");
+    EVENING("18:30");
 
 
     private final String TIME;
@@ -27,6 +27,18 @@ public enum Time {
      */
     private Time(String time) {
         this.TIME = time;
+    }
+
+    public static Time returnTimeEnumFromString(String time) {
+        if (time.equalsIgnoreCase("morning")) {
+            return Time.MORNING;
+        } else if (time.equalsIgnoreCase("afternoon")) {
+            return Time.AFTERNOON;
+        } else if (time.equalsIgnoreCase("evening")) {
+            return Time.EVENING;
+        } else {
+            throw new IllegalArgumentException("Time: " + time + "not valid.");
+        }
     }
 
     /**

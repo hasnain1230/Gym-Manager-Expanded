@@ -1,5 +1,6 @@
 package fitness_classes;
 
+import enums.Location;
 import enums.Time;
 import member.Member;
 import date.Date;
@@ -31,6 +32,7 @@ public class FitnessClass extends ClassSchedule {
     private final Time TIME;
     private final String CLASS_NAME;
     private final String INSTRUCTOR_NAME;
+    private final Location LOCATION;
 
 
     /**
@@ -48,11 +50,12 @@ public class FitnessClass extends ClassSchedule {
      * class are the same as above where 0 is Pilates, 1 is Spinning, and 2 is Cardio. These values do not change throughout the program.
      * @param time Time enum for specifically designed for the fitness class.
      */
-    public FitnessClass(Time time, String className, String instructorName) {
+    public FitnessClass(Time time, String className, String instructorName, Location location) {
         this.membersInClass = new ArrayList<>();
         this.TIME = time;
         this.CLASS_NAME = className;
         this.INSTRUCTOR_NAME = instructorName;
+        this.LOCATION = location;
     }
 
     public String getTime() {
@@ -154,14 +157,17 @@ public class FitnessClass extends ClassSchedule {
      * Prints fitness class schedule. If class is empty, no participants are printed. If class has participants,
      * those members and their membership related information is printed.
      */
-    public void printClassParticipants() {
+    @Override
+    public String toString() {
 //        System.out.println("-Fitness classes-");
+        String returnString = String.format("%s - %s %s\n", this.CLASS_NAME, this.INSTRUCTOR_NAME, this.TIME.getTime());
+        StringBuilder sb = new StringBuilder(returnString);
 
-        System.out.printf("%s - %s %s\n", this.CLASS_NAME, this.INSTRUCTOR_NAME, this.TIME.getTime());
-
-        for (int x = 0; x < this.membersInClass.size(); x++) {
-            System.out.printf("\t %s\n", this.membersInClass.get(x));
+        for (Member inClass : this.membersInClass) {
+            sb.append(String.format("\t %s\n", inClass));
         }
+
+        return sb.toString();
     }
 
     @Override

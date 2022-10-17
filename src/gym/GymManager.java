@@ -3,6 +3,7 @@ package gym;
 import constants.Constants;
 import enums.Time;
 import enums.Location;
+import fitness_classes.ClassSchedule;
 import fitness_classes.FitnessClass;
 import member.Family;
 import member.Member;
@@ -10,7 +11,11 @@ import date.Date;
 import member.MemberDatabase;
 import member.Premium;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
+import java.util.SortedMap;
 
 
 /**
@@ -20,8 +25,6 @@ import java.util.Scanner;
  * @author Hasnain Ali, Carolette Saguil
  */
 public class GymManager {
-
-
     /**
      * Default constructor; not used.
      */
@@ -80,8 +83,28 @@ public class GymManager {
         }
     }
 
-    private static boolean loadFitnessClasses() {
-        Scanner sc = new Scanner(Constants.CLASS_SCHEDULE_FROM_CONTENT_ROOT);
+    private boolean loadFitnessClasses(ClassSchedule classSchedule) {
+        try {
+            File file = new File(Constants.CLASS_SCHEDULE_FROM_CONTENT_ROOT);
+            Scanner sc = new Scanner(file);
+
+            while (sc.hasNextLine()) {
+                String[] line = sc.nextLine().split(" ");
+                System.out.println(Arrays.toString(line));
+
+                String className = line[0];
+                String instructorName = line[1];
+                Time time = Time.returnTimeEnumFromString(line[2]);
+                Location location = Location.returnEnumFromString(line[3]);
+
+                FitnessClass fitnessClass = new FitnessClass(time, className, instructorName, location);
+
+                classSchedule.addClass(fitnessClass);
+            }
+        } catch (FileNotFoundException fileNotFoundException) {
+            fileNotFoundException.printStackTrace();
+        }
+
         return false;
     }
 
@@ -105,25 +128,11 @@ public class GymManager {
         System.out.printf("%s %s was unable to be removed.\n", lineParts[1], lineParts[2]);
     }
 
-    /**
-     * FitnessClass array is instantiated and made here. <br>
-     *
-     * <ul>
-     *     <b>fitnessClass[0] = Pilates, fitnessClass[1] = Spinning, fitnessClass[2] = Cardio</b>
-     * </ul>
-     * @param fitnessClasses Array consisting of all fitness classes. fitnessClass[0] = Pilates, fitnessClass[1] = Spinning, fitnessClass[2] = Cardio
-     */
-    private void instantiateFitnessClasses(FitnessClass[] fitnessClasses) {
-        fitnessClasses[0] = new FitnessClass(Time.PILATES);
-        fitnessClasses[1] = new FitnessClass(Time.SPINNING);
-        fitnessClasses[2] = new FitnessClass(Time.CARDIO);
-    }
-
-    /**
+/*    *//**
      * Based on {@code className}, the appropriate index for the class is returned.
      * @param className The name of the class to return the index from.
      * @return The index of the class based on the {@code className}. -1 is the class was not found.
-     */
+     *//*
     private int returnClassIndex(String className) {
         if (className.equalsIgnoreCase("pilates")) {
             return Time.PILATES.getClassIndex();
@@ -134,7 +143,7 @@ public class GymManager {
         } else {
             return Constants.NOT_FOUND;
         }
-    }
+    }*/
 
     /**
      * Checks a member into a particular fitness class. The class must exist, they must have a valid date of birth,
@@ -143,7 +152,7 @@ public class GymManager {
      * @param memberDatabase The member database that was created for all current members.
      * @param fitnessClasses Array consisting of all fitness classes. fitnessClass[0] = Pilates, fitnessClass[1] = Spinning, fitnessClass[2] = Cardio
      */
-    private void checkInMember(String[] lineParts, MemberDatabase memberDatabase, FitnessClass[] fitnessClasses) {
+ /*   private void checkInMember(String[] lineParts, MemberDatabase memberDatabase, FitnessClass[] fitnessClasses) {
         int classIndex = returnClassIndex(lineParts[1]);
         String fname = lineParts[2];
         String lname = lineParts[3];
@@ -177,7 +186,7 @@ public class GymManager {
         fitnessClasses[classIndex].checkIn(memberToCheckIn);
 
         System.out.printf("%s %s checked into %s.\n", memberToCheckIn.getFname(), memberToCheckIn.getLname(), fitnessClasses[classIndex].getClassName());
-    }
+    }*/
 
     /**
      * Drops a particular member from the class. They must be in the class, have a valid date of birth, and be wanting to drop a class that exists.
@@ -185,7 +194,7 @@ public class GymManager {
      * @param memberDatabase The member database that was created for all current members.
      * @param fitnessClasses Array consisting of all fitness classes. fitnessClass[0] = Pilates, fitnessClass[1] = Spinning, fitnessClass[2] = Cardio
      */
-    private void dropClass(String[] lineParts, MemberDatabase memberDatabase, FitnessClass[] fitnessClasses) {
+/*    private void dropClass(String[] lineParts, MemberDatabase memberDatabase, FitnessClass[] fitnessClasses) {
         int classIndex = returnClassIndex(lineParts[1]);
         String fname = lineParts[2];
         String lname = lineParts[3];
@@ -206,7 +215,7 @@ public class GymManager {
 
         fitnessClasses[classIndex].dropClass(memberToDrop);
         System.out.printf("%s %s dropped %s\n", fname, lname, lineParts[1]);
-    }
+    }*/
 
     /**
      * Starts running the Gym Manager UI blocking while waiting for valid commands. Using the String.split() method,
@@ -275,8 +284,7 @@ public class GymManager {
         Scanner sc = new Scanner(System.in);
         String input;
         MemberDatabase memberDatabase = new MemberDatabase();
-        FitnessClass[] fitnessClasses = new FitnessClass[Constants.NUMBER_OF_CLASSES];
-        instantiateFitnessClasses(fitnessClasses);
+        ClassSchedule classSchedule = new ClassSchedule();
 
         while ( !((input = sc.nextLine()).equals("Q")) ) {
             String[] lineParts = input.split(" ");
@@ -284,7 +292,7 @@ public class GymManager {
             if (lineParts[0].equals("A") || lineParts[0].equals("AF") || lineParts[0].equals("AP")) { //add member
                 addMember(lineParts, memberDatabase);
             } else if (lineParts[0].equals("PF")) { //print members with fee
-
+                memberDatabase.printWithMembershipFee();
             } else if (lineParts[0].equals("R")) { //should work the same as before
                 removeMember(lineParts, memberDatabase);
             } else if (lineParts[0].equals("P")) { //should work the same as before
@@ -295,7 +303,7 @@ public class GymManager {
                 memberDatabase.printByName();
             } else if (lineParts[0].equals("PD")) {//should work the same as before
                 memberDatabase.printByExpirationDate();
-            } else if (lineParts[0].equals("S")) {//should work the same as before
+            } /*else if (lineParts[0].equals("S")) {//should work the same as before
                 FitnessClass.printClassSchedule();
             } else if (lineParts[0].equals("C")) { //check in member
                 checkInMember(lineParts, memberDatabase, fitnessClasses);
@@ -303,10 +311,10 @@ public class GymManager {
                 continue;
             } else if (lineParts[0].equals("D")) { //member is done with fitness class
                 dropClass(lineParts, memberDatabase, fitnessClasses);
-            } else if (lineParts[0].equals("DG")) { //guest is done with fitness class
+            }*/ else if (lineParts[0].equals("DG")) { //guest is done with fitness class
                 continue;
             } else if (lineParts[0].equals("LS")) {
-                loadFitnessClasses();
+                loadFitnessClasses(classSchedule);
             } else if (lineParts[0].equals("")) {
                 continue;
             } else {

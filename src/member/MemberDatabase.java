@@ -150,6 +150,23 @@ public class MemberDatabase {
     }
 
     /**
+     * Prints out all the members in the database with their membership fee for the next billing term, with no sorting.
+     */
+    public void printWithMembershipFee() {
+
+        if (this.size == 0) {
+            System.out.println("Member Database is empty!");
+            return;
+        }
+
+        System.out.println("-list of members-");
+        for (int x = 0; x < this.size; x++) {
+            System.out.println(this.mlist[x].toString(mlist[x].getMembershipFee()));
+        }
+        System.out.println("-end of list-");
+    }
+
+    /**
      * Prints out all the members in the member database, sorted by county then zipcode.
      */
     public void printByCounty() {
