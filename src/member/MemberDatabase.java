@@ -28,28 +28,6 @@ public class MemberDatabase {
     }
 
     /**
-     * Looks for member in the member database using member's first name, last name, and date of birth.
-     * @param firstName Member's firstName.
-     * @param lastName Member's lastName.
-     * @param dob Member's date of birth.
-     * @return index of the member in the member database, -1 otherwise.
-     */
-
-    // FIXME: Multiple Parameters
-    public int find(String firstName, String lastName, Date dob) { // This isn't that bad to refactor for project 2
-        for (int x = 0; x < this.size; x++) { // Not binary search, it's fine for this project.
-            if (this.mlist[x].getFname().equals(firstName)
-                    && this.mlist[x].getLname().equals(lastName)
-                    && this.mlist[x].getDob().compareTo(dob) == 0) {
-                return x;
-            }
-        }
-
-        return Constants.NOT_FOUND;
-    }
-
-
-    /**
      * Looks for a Member in the member database.
      * @param member Member to find the database index for.
      * @return index of the member in the member database, -1 otherwise.
@@ -80,7 +58,7 @@ public class MemberDatabase {
      * Size limited by JVM memory allocation. (How big Java will let you make an array before you run out of space).
      */
     public void grow() {
-        Member[] newMemberList = new Member[this.size + 4];
+        Member[] newMemberList = new Member[this.size + Constants.ARRAY_INCREMENT_SIZE];
 
         for (int x = 0; x < this.size; x++) {
             newMemberList[x] = this.mlist[x];
@@ -145,6 +123,23 @@ public class MemberDatabase {
         System.out.println("-list of members-");
         for (int x = 0; x < this.size; x++) {
             System.out.println(this.mlist[x]);
+        }
+        System.out.println("-end of list-");
+    }
+
+    /**
+     * Prints out all the members in the database with their membership fee for the next billing term, with no sorting.
+     */
+    public void printWithMembershipFee() {
+
+        if (this.size == 0) {
+            System.out.println("Member Database is empty!");
+            return;
+        }
+
+        System.out.println("-list of members-");
+        for (int x = 0; x < this.size; x++) {
+            System.out.println(this.mlist[x].toString(mlist[x].getMembershipFee()));
         }
         System.out.println("-end of list-");
     }

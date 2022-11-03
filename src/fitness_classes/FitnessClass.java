@@ -1,9 +1,11 @@
 package fitness_classes;
 
+import enums.Location;
 import enums.Time;
 import member.Member;
 import date.Date;
 import constants.Constants;
+import java.util.ArrayList;
 
 /**
  * This class defines a fitness class and has access to all other fitness classes that exist.
@@ -11,11 +13,7 @@ import constants.Constants;
  * fitness classes is variable. This class facilitates that entire process.
  * @author Hasnain Ali, Carolette Saguil
  */
-public class FitnessClass {
-    /**
-     * Corresponding to {@code membersInClass}; stores how many people are in each class corresponding to the main {@code membersInClass} database.
-     */
-    private static int[] classSize;
+public class FitnessClass extends ClassSchedule {
     /**
      * Stores all the members in all the fitness classes.
      * <ul>
@@ -26,17 +24,16 @@ public class FitnessClass {
      *
      * Each index stores in membersInClass[index] stores the members in that class.
      */
-    private static Member[][] membersInClass;
+    private ArrayList<Member> membersInClass;
     /**
      * Stores the current FitnessClass's instance Time enum for the specific class. Effectively, this lets the current
      * FitnessClass instance store the name of the current fitness class.
      */
-    private final Time FITNESS_CLASS;
-    /**
-     * Stores all the Time enums for all the FitnessClasses. This is effectively, so we can get the name of any time conflicting
-     * classes.
-     */
-    private final Time[] ALL_CLASSES;
+    private final Time TIME;
+    private final String CLASS_NAME;
+    private final String INSTRUCTOR_NAME;
+    private final Location LOCATION;
+
 
     /**
      * Initializes a 2D static array for the members in the class. Creates a {@code membersInClass} 2D array for
@@ -53,36 +50,31 @@ public class FitnessClass {
      * class are the same as above where 0 is Pilates, 1 is Spinning, and 2 is Cardio. These values do not change throughout the program.
      * @param time Time enum for specifically designed for the fitness class.
      */
-    public FitnessClass(Time time) {
-        membersInClass = new Member[Constants.NUMBER_OF_CLASSES][Constants.ARRAY_DEFAULT_SIZE];
-        this.FITNESS_CLASS = time;
-        classSize = new int[Constants.NUMBER_OF_CLASSES];
-
-        this.ALL_CLASSES = new Time[Constants.NUMBER_OF_CLASSES];
-        this.ALL_CLASSES[0] = Time.PILATES;
-        this.ALL_CLASSES[1] = Time.SPINNING;
-        this.ALL_CLASSES[2] = Time.CARDIO;
+    public FitnessClass(Time time, String className, String instructorName, Location location) {
+        this.membersInClass = new ArrayList<>();
+        this.TIME = time;
+        this.CLASS_NAME = className;
+        this.INSTRUCTOR_NAME = instructorName;
+        this.LOCATION = location;
     }
 
-    /**
-     * Grows the particular fitness class database for the current fitness class when the current database is full.
-     * Size limited by JVM memory.
-     */
-    private void grow() {
-        Member[] newMembersInClass = new Member[classSize[this.FITNESS_CLASS.getClassIndex()] + Constants.ARRAY_INCREMENT_SIZE];
-
-        for (int x = 0; x < classSize[this.FITNESS_CLASS.getClassIndex()]; x++) {
-            newMembersInClass[x] = membersInClass[this.FITNESS_CLASS.getClassIndex()][x];
-        }
-
-        membersInClass[this.FITNESS_CLASS.getClassIndex()] = newMembersInClass;
+    public String getTime() {
+        return this.TIME.getTime();
     }
 
     /**
      * @return Name of Fitness Class.
      */
     public String getClassName() {
-        return this.FITNESS_CLASS.getClassName();
+        return this.CLASS_NAME;
+    }
+
+    public String getInstructorName() {
+        return this.INSTRUCTOR_NAME;
+    }
+
+    public ArrayList<Member> getMembersInClass() {
+        return this.membersInClass;
     }
 
     /**
@@ -91,8 +83,8 @@ public class FitnessClass {
      * @return index of the member in the fitness class database, -1 otherwise.
      */
     public int findMemberInClass(Member member) {
-        for (int i = 0; i < classSize[this.FITNESS_CLASS.getClassIndex()]; i++) {
-            if (membersInClass[this.FITNESS_CLASS.getClassIndex()][i] != null && membersInClass[this.FITNESS_CLASS.getClassIndex()][i].equals(member)) {
+        for (int i = 0; i < this.membersInClass.size(); i++) {
+            if (this.membersInClass.get(i).equals(member)) {
                 return i;
             }
         }
@@ -110,32 +102,11 @@ public class FitnessClass {
     }
 
     /**
-     * Finds the class name of the {@code member} that has the time conflict.
-     * @param member The member that has the particular time conflict.
-     * @return The class name that has the time conflict for {@code member}. null if that member was not found. Should be used
-     * in conjunction with {@code checkForTimeConflict()}
-     */
-    public String findTimeConflictClass(Member member) {
-        for (int x = 0; x < membersInClass.length; x++) {
-            for (int y = 0; y < membersInClass[x].length; y++) {
-                if (this.FITNESS_CLASS.getClassIndex() == x) {
-                    continue;
-                }
-
-                if (membersInClass[x][y] != null && membersInClass[x][y].equals(member) && this.ALL_CLASSES[x].getTime().equals(this.FITNESS_CLASS.getTime())) {
-                    return Time.returnEnumFromIndex(x).getClassName();
-                }
-            }
-        }
-
-        return null;
-    }
-
-    /**
      * Checks if there is a time conflict.
      * @param member Member to check if they have a time conflict.
      * @return <b>false</b> if there is a time conflict; <b>true</b> otherwise.
      */
+/*
     public boolean checkForTimeConflict(Member member) {
         for (int x = 0; x < membersInClass.length; x++) {
             for (int y = 0; y < membersInClass[x].length; y++) {
@@ -151,6 +122,7 @@ public class FitnessClass {
 
         return true;
     }
+*/
 
     /**
      * Checks a member into a fitness class database. If that classes database is filled, this method will grow that
@@ -160,12 +132,7 @@ public class FitnessClass {
      */
     public boolean checkIn(Member member) { // Assuming that they allowed to do this if they are calling this method.
         if (!checkIfMemberExpired(member) && findMemberInClass(member) == Constants.NOT_FOUND) {
-            if (classSize[this.FITNESS_CLASS.getClassIndex()] == membersInClass[this.FITNESS_CLASS.getClassIndex()].length) {
-                this.grow();
-            }
-
-            membersInClass[this.FITNESS_CLASS.getClassIndex()][classSize[this.FITNESS_CLASS.getClassIndex()]] = member;
-            classSize[this.FITNESS_CLASS.getClassIndex()]++;
+            this.membersInClass.add(member);
             return true;
         }
 
@@ -176,48 +143,38 @@ public class FitnessClass {
      * Drops member from the fitness class database. Fails if member is not found with no return type.
      * @param member Member to drop from class
      */
-    public void dropClass(Member member) {
+   public void dropClass(Member member) {
         int index = this.findMemberInClass(member);
 
         if (index == Constants.NOT_FOUND) {
             return;
         }
 
-        for (int i = index; i < classSize[this.FITNESS_CLASS.getClassIndex()] - 1; i++) {
-            membersInClass[this.FITNESS_CLASS.getClassIndex()][i] = membersInClass[this.FITNESS_CLASS.getClassIndex()][i + 1];
-        }
-
-        membersInClass[this.FITNESS_CLASS.getClassIndex()][classSize[this.FITNESS_CLASS.getClassIndex()] - 1] = null;
-        classSize[this.FITNESS_CLASS.getClassIndex()]--;
+        this.membersInClass.remove(member);
     }
 
     /**
      * Prints fitness class schedule. If class is empty, no participants are printed. If class has participants,
      * those members and their membership related information is printed.
      */
-    public static void printClassSchedule() {
-        System.out.println("-Fitness classes-");
+    @Override
+    public String toString() {
+        String returnString = String.format("%s - %s %s\n", this.CLASS_NAME.toUpperCase(), this.INSTRUCTOR_NAME.toUpperCase(), this.TIME.getTime());
+        StringBuilder sb = new StringBuilder(returnString);
 
-        for (int x = 0; x < membersInClass.length; x++) {
-            if (x == 0) {
-                Time time = Time.PILATES;
-                System.out.printf("%s - %s %s\n", time.getClassName(), time.getInstructor(), time.getTime());
-            } else if (x == 1) {
-                Time time = Time.SPINNING;
-                System.out.printf("%s - %s %s\n", time.getClassName(), time.getInstructor(), time.getTime());
-            } else if (x == 2) {
-                Time time = Time.CARDIO;
-                System.out.printf("%s - %s %s\n", time.getClassName(), time.getInstructor(), time.getTime());
-            }
-
-            if (classSize[x] > 0) {
-                System.out.println("\t** participants **");
-            }
-
-            for (int y = 0; y < classSize[x]; y++) {
-                System.out.printf("\t %s\n", membersInClass[x][y]);
-            }
+        for (Member inClass : this.membersInClass) {
+            sb.append(String.format("\t %s\n", inClass));
         }
+
+        return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        FitnessClass fitnessClass = (FitnessClass) obj;
+
+        return this.CLASS_NAME.equals(fitnessClass.getClassName()) && this.INSTRUCTOR_NAME.equals(fitnessClass.getInstructorName())
+                && this.membersInClass.equals(fitnessClass.getMembersInClass());
     }
 }
 

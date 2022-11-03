@@ -7,62 +7,37 @@ package enums;
  */
 public enum Time {
     /**
-     * "Pilates", 0, "9:30", "JENNIFER"
+     * "9:30"
      */
-    PILATES("Pilates", 0, "9:30", "JENNIFER"),
+    MORNING("9:30"),
     /**
-     * "Spinning", 1, "14:00", "DENISE"
+     * "14:00"
      */
-    SPINNING("Spinning", 1, "14:00", "DENISE"),
+    AFTERNOON("14:00"),
     /**
-     * "Cardio", 2, "14:00", "KIM"
+     * "18:30"
      */
-    CARDIO("Cardio", 2, "14:00", "KIM");
+    EVENING("18:30");
 
-    /**
-     * The class name.
-     */
-    private final String CLASS_NAME;
-    /**
-     * Class Index in the FitnessClass Database in {@code FitnessClass}.
-     */
-    private final int CLASS_INDEX;
-    /**
-     * The time.
-     */
+
     private final String TIME;
-    /**
-     * The instructor's name.
-     */
-    private final String INSTRUCTOR;
 
     /**
-     * @param className Fitness Class Name
-     * @param classIndex Fitness Class Index in FitnessClass Database in {@code FitnessClass}.
      * @param time Fitness Class Time
-     * @param instructor Fitness Class Instructor
      */
-    private Time(String className, int classIndex, String time, String instructor) {
-        this.CLASS_NAME = className;
-        this.CLASS_INDEX = classIndex;
+    private Time(String time) {
         this.TIME = time;
-        this.INSTRUCTOR = instructor;
     }
 
-    /**
-     * @param index Fitness Class Index to get corresponding Time enum
-     * @return The time corresponding Time enum based on {@code index}. May return null if invalid class is given.
-     */
-    public static Time returnEnumFromIndex(int index) {
-        switch (index) {
-            case 0:
-                return PILATES;
-            case 1:
-                return SPINNING;
-            case 2:
-                return CARDIO;
-            default:
-                return null;
+    public static Time returnTimeEnumFromString(String time) {
+        if (time.equalsIgnoreCase("morning")) {
+            return Time.MORNING;
+        } else if (time.equalsIgnoreCase("afternoon")) {
+            return Time.AFTERNOON;
+        } else if (time.equalsIgnoreCase("evening")) {
+            return Time.EVENING;
+        } else {
+            throw new IllegalArgumentException("Time: " + time + "not valid.");
         }
     }
 
@@ -73,32 +48,8 @@ public enum Time {
         return this.TIME;
     }
 
-    /**
-     * @return Returns Fitness Class name
-     */
-    public final String getClassName() {
-        return this.CLASS_NAME;
-    }
-
-    /**
-     * @return Returns the integer fitness class index
-     */
-    public final int getClassIndex() {
-        return this.CLASS_INDEX;
-    }
-
-    /**
-     * @return Returns fitness class instructor name.
-     */
-    public final String getInstructor() {
-        return this.INSTRUCTOR;
-    }
-
-    /**
-     * @return Returns a String with the state of fitness class Times from Time enum.
-     */
     @Override
     public final String toString() {
-        return String.format("Class Name: %s, Class Index: %d", this.CLASS_NAME, this.CLASS_INDEX);
+        return String.format("Time: %s", this.TIME);
     }
 }
