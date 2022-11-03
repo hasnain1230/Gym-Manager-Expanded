@@ -1,8 +1,5 @@
 package gym;
 
-import member.Family;
-import member.Member;
-
 /**
  * This class will run {@code GymManager} start the user interface.
  * @author Hasnain Ali, Carolette Saguil

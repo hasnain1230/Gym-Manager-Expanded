@@ -1,8 +1,7 @@
 package enums;
 
 /**
- * Time enum which defines Pilates Fitness Class, Spinning Fitness Class, Cardio Fitness Class, their respective
- * class indexes, their respective times, and their respective instructors.
+ * Time enum which defines morning (9:30), afternoon(14:00), and evening(18:30). Used for fitness class.
  * @author Hasnain Ali, Carolette Saguil
  */
 public enum Time {
@@ -29,7 +28,27 @@ public enum Time {
         this.TIME = time;
     }
 
-    public static Time returnTimeEnumFromString(String time) {
+    /**
+     * @param time Time in format hr:min as a string.
+     * @return Returns the corresponding Time enum of the {@code time}.
+     */
+    public static Time returnTimeFromString(String time) {
+        if (time.equalsIgnoreCase("9:30")) {
+            return Time.MORNING;
+        } else if (time.equalsIgnoreCase("14:00")) {
+            return Time.AFTERNOON;
+        } else if (time.equalsIgnoreCase("18:30")) {
+            return Time.EVENING;
+        } else {
+            throw new IllegalArgumentException("Time: " + time + "not valid.");
+        }
+    }
+
+    /**
+     * @param time Time of day as a string.
+     * @return Returns the corresponding Time enum of the {@code time}.
+     */
+    public static Time returnTimeEnumFromTimeOfDay(String time) {
         if (time.equalsIgnoreCase("morning")) {
             return Time.MORNING;
         } else if (time.equalsIgnoreCase("afternoon")) {
@@ -48,6 +67,9 @@ public enum Time {
         return this.TIME;
     }
 
+    /**
+     * @return Returns string representation of time in the format Time: time.
+     */
     @Override
     public final String toString() {
         return String.format("Time: %s", this.TIME);

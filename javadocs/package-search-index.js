@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"constants"},{"l":"date"},{"l":"enums"},{"l":"gym"},{"l":"member"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"constants"},{"l":"date"},{"l":"enums"},{"l":"fitness_classes"},{"l":"gym"},{"l":"member"}];updateSearchResults();

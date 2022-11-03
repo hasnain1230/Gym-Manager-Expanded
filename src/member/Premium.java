@@ -46,7 +46,7 @@ public class Premium extends Family {
      */
     @Override
     public String toString(double fee){
-        if (super.getExpire().compareTo(new Date()) <= 0) { // If membership has expired.
+        if (super.getExpire().compareTo(new Date()) <= 0) {
             return String.format("%s %s, DOB: %s, Membership expired: %s, Location: %s, (Premium) guest-pass remaining = %d, Membership fee: $%.2f",
                     super.getFname(), super.getLname(), super.getDob(), super.getExpire(), super.getLocation(), super.getGuestPasses(), fee);
         }
@@ -60,7 +60,7 @@ public class Premium extends Family {
      */
     @Override
     public String toString() {
-        if (super.getExpire().compareTo(new Date()) <= 0) { // If membership has expired.
+        if (super.getExpire().compareTo(new Date()) <= 0) {
             return String.format("%s %s, DOB: %s, Membership expired: %s, Location: %s, (Premium) guest-pass remaining = %d",
                     super.getFname(), super.getLname(), super.getDob(), super.getExpire(), super.getLocation(), super.getGuestPasses());
         }
