@@ -29,8 +29,6 @@ public class Constants {
 
     public static final int NOT_FOUND = -1;
 
-    // TODO: Document these variables since they are confusing
-
     public static final double STANDARD_ONE_TIME_MEMBER_FEE = 29.99;
     public static final double STANDARD_MONTHLY_FEE = 39.99;
     public static final double STANDARD_MEMBERSHIP_PAYMENT_FREQUENCY = 3.0;
@@ -46,4 +44,8 @@ public class Constants {
     public static final short PREMIUM_GUEST_PASS = 3;
 
     public static final String CLASS_SCHEDULE_FROM_CONTENT_ROOT = "src/data/classSchedule.txt";
+    public static final String MEMBER_LIST_FROM_CONTENT_ROOT = "src/data/memberList.txt";
+
+    public static final int MONTHS_SET_TO_EXPIRE = 3;
+    public static final int YEAR_SET_TO_EXPIRE = 1;
 }

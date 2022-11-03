@@ -176,14 +176,8 @@ public class Date implements Comparable<Date> {
         }
 
         if (this.month == Constants.APRIL || this.month == Constants.JUNE || this.month == Constants.SEPTEMBER || this.month == Constants.NOVEMBER) {
-            if (this.day > Constants.MAX_DAYS_ONE) {
-                return false;
-            }
-        } else if( this.month != Constants.FEBRUARY && this.day > Constants.MAX_DAYS_TWO) {
-            return false;
-        }
-
-        return true;
+            return this.day <= Constants.MAX_DAYS_ONE;
+        } else return this.month == Constants.FEBRUARY || this.day <= Constants.MAX_DAYS_TWO;
     }
 
     /**
@@ -192,9 +186,9 @@ public class Date implements Comparable<Date> {
      */
     public void incrementMonth(int increment) {
         int incrementedMonth = this.month + increment;
-        if (incrementedMonth > 12) {
-            this.year += incrementedMonth / 12;
-            this.month = incrementedMonth % 12;
+        if (incrementedMonth > Constants.MAX_MONTH) {
+            this.year += incrementedMonth / Constants.MAX_MONTH;
+            this.month = incrementedMonth % Constants.MAX_MONTH;
         } else {
             this.month = incrementedMonth;
         }

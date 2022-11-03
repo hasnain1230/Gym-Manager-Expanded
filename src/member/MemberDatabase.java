@@ -137,7 +137,7 @@ public class MemberDatabase {
             return;
         }
 
-        System.out.println("-list of members-");
+        System.out.println("-list of members with membership fees-");
         for (int x = 0; x < this.size; x++) {
             System.out.println(this.mlist[x].toString(mlist[x].getMembershipFee()));
         }

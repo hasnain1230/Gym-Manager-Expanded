@@ -17,6 +17,9 @@ import enums.Location;
  * @author Hasnain Ali, Carolette Saguil
  */
 public class Family extends Member {
+    /**
+     * Guest passes.
+     */
     private short guestPasses;
 
     /**
@@ -39,7 +42,7 @@ public class Family extends Member {
      * @return false if the number of guest passes is less than 1, true otherwise.
      */
     public boolean setGuestPasses(short guestPasses) {
-        if (guestPasses < 1) {
+        if (guestPasses < 0) { // This prevents us from accidentally setting the
             return false;
         }
 
